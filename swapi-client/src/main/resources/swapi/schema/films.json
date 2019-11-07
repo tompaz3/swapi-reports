@@ -1,0 +1,16 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "films",
+  "type": "object",
+  "title": "Films Schema",
+  "properties": {
+    "results": {
+      "$id": "#/properties/results",
+      "type": "array",
+      "items": {
+        "$ref": "film.json"
+      }
+    }
+  }
+}

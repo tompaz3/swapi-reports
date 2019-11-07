@@ -1,0 +1,16 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "planets",
+  "type": "object",
+  "title": "Planets Schema",
+  "properties": {
+    "results": {
+      "$id": "#/properties/results",
+      "type": "array",
+      "items": {
+        "$ref": "planets.json"
+      }
+    }
+  }
+}
