@@ -7,10 +7,10 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class PeopleClient {
 
-  private final SwapiGenericFindByNameClient genericFindByNameClient;
+  private final SwapiGetMethodClient genericFindByNameClient;
   private final String getPeopleUri;
 
   public Mono<People> findByName(String name) {
-    return genericFindByNameClient.findByName(getPeopleUri, name, People.class);
+    return genericFindByNameClient.get(getPeopleUri, People.class);
   }
 }

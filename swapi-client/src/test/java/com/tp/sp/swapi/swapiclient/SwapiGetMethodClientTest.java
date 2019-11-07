@@ -2,18 +2,20 @@ package com.tp.sp.swapi.swapiclient;
 
 import com.tp.sp.swapi.swapi.jsonschema.Film;
 import com.tp.sp.swapi.swapi.jsonschema.Films;
+import com.tp.sp.swapi.swapi.jsonschema.People;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.val;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @Tag(SwapiClientTestTags.SWAPI_CLIENT_INTEGRATION_TEST)
-class SwapiGenericFindByNameClientTest {
+class SwapiGetMethodClientTest {
 
-  private SwapiGenericFindByNameClient client;
+  private SwapiGetMethodClient client;
   private SwapiClientProperties swapiClientProperties;
 
   @BeforeEach
@@ -21,26 +23,49 @@ class SwapiGenericFindByNameClientTest {
     swapiClientProperties = TestPropertiesHolder.instance().getSwapiClientProperties();
     val swapiResponseMapper = new SwapiResponseMapper(
         new JsonMapperProvider().provide());
-    client = new SwapiGenericFindByNameClient(swapiClientProperties.getBaseUrl(),
+    client = new SwapiGetMethodClient(swapiClientProperties.getBaseUrl(),
         swapiResponseMapper);
   }
 
+  @DisplayName("given: given valid name query param and uri, "
+      + "when: get, "
+      + "then: all records containing given name query value found")
   @Test
-  void test() {
+  void givenNameParameterAndUriWhenGetThenAllRecordsContainingNamePhraseFound() {
+    // given query param value
     val name = "a";
+    // and uri
     val uri = SwapiUriBuilder.of(swapiClientProperties.getFilmsUri())
         .queryParam("search", name)
         .build();
-    val response = client.findByName(uri, name, Films.class);
 
+    // when get
+    val response = client.get(uri, Films.class);
     val films = response.block();
 
+    // then response mapped and returned
     Assertions.assertThat(films).isNotNull();
+    // and results are not empty
     Assertions.assertThat(films.getResults()).isNotEmpty();
 
+    // and all results contain name equal to given param
     val pattern = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
     Assertions.assertThat(films.getResults().stream().map(Film::getTitle).map(pattern::matcher)
         .filter(Matcher::find).count()).isEqualTo(films.getResults().size())
         .as("Results contain only films with name containing {}", name);
+  }
+
+  @DisplayName("given: invalid uri, "
+      + "when: get, "
+      + "then: exception thrown")
+  @Test
+  void givenInvalidUriWhenGetThenExceptionIsThrown() {
+    // given invalid uri
+    val uri = "http://localhost:12345/doesnotexist/";
+
+    // when get
+    val response = client.get(uri, People.class);
+    // then exception is thrown
+    Assertions.assertThatThrownBy(response::block);
   }
 }

@@ -5,17 +5,17 @@ import io.netty.handler.codec.http.HttpHeaderValues;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
-public class SwapiGenericFindByNameClient {
+public class SwapiGetMethodClient {
 
   private final HttpClient httpClient;
   private final SwapiResponseMapper responseMapper;
 
-  public SwapiGenericFindByNameClient(String baseUrl, SwapiResponseMapper responseMapper) {
+  public SwapiGetMethodClient(String baseUrl, SwapiResponseMapper responseMapper) {
     this.httpClient = HttpClient.create().baseUrl(baseUrl);
     this.responseMapper = responseMapper;
   }
 
-  public <T> Mono<T> findByName(String uri, String name, Class<T> responseType) {
+  public <T> Mono<T> get(String uri, Class<T> responseType) {
     return httpClient
         .headers((h) -> h.add(HttpHeaderNames.ACCEPT, HttpHeaderValues.APPLICATION_JSON))
         .get()
