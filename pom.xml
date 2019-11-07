@@ -26,15 +26,36 @@
     <!-- Dependencies -->
     <lombok.version>1.18.10</lombok.version>
 
+    <!-- Test dependencies -->
+    <junit-bom.version>5.6.0-M1</junit-bom.version>
+    <assertj.version>3.14.0</assertj.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <!-- Dependencies -->
       <!-- Lombok -->
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>${lombok.version}</version>
+      </dependency>
+
+      <!-- Test dependencies -->
+      <!-- JUnit BOM -->
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit-bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- AssertJ -->
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${assertj.version}</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
