@@ -1,12 +1,14 @@
 package com.tp.sp.swapi.swapiclient;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.tp.sp.swapi.swapi.jsonschema.Film;
 import com.tp.sp.swapi.swapi.jsonschema.Films;
 import com.tp.sp.swapi.swapi.jsonschema.People;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.val;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -44,13 +46,13 @@ class SwapiGetMethodClientTest {
     val films = response.block();
 
     // then response mapped and returned
-    Assertions.assertThat(films).isNotNull();
+    assertThat(films).isNotNull();
     // and results are not empty
-    Assertions.assertThat(films.getResults()).isNotEmpty();
+    assertThat(films.getResults()).isNotEmpty();
 
     // and all results contain name equal to given param
     val pattern = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
-    Assertions.assertThat(films.getResults().stream().map(Film::getTitle).map(pattern::matcher)
+    assertThat(films.getResults().stream().map(Film::getTitle).map(pattern::matcher)
         .filter(Matcher::find).count()).isEqualTo(films.getResults().size())
         .as("Results contain only films with name containing {}", name);
   }
@@ -66,6 +68,28 @@ class SwapiGetMethodClientTest {
     // when get
     val response = client.get(uri, People.class);
     // then exception is thrown
-    Assertions.assertThatThrownBy(response::block);
+    assertThatThrownBy(response::block);
+  }
+
+  @DisplayName("given: non-existing name as search param, "
+      + "when: get, "
+      + "then: no records found")
+  @Test
+  void givenNonExistingNameWhenGetThenNothingFound() {
+    // given query param value
+    val name = "ajahwdwahdhwad==10329=2";
+    // and uri
+    val uri = SwapiUriBuilder.of(swapiClientProperties.getFilmsUri())
+        .queryParam("search", name)
+        .build();
+
+    // when get
+    val response = client.get(uri, Films.class);
+    val films = response.block();
+
+    // then result retrieved
+    assertThat(films).isNotNull();
+    // and no records found
+    assertThat(films.getResults()).isEmpty();
   }
 }
