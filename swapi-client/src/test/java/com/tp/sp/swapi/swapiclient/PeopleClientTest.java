@@ -19,7 +19,7 @@ class PeopleClientTest {
   @BeforeEach
   void setUp() {
     val peopleUri = TestPropertiesHolder.instance().getSwapiClientProperties().getPeopleUri();
-    val genericFindByNameClient = TestSwapiGenericFindByNameClientProvider.instance().provide();
+    val genericFindByNameClient = TestSwapiGetMethodClientProvider.instance().provide();
     client = new PeopleClient(genericFindByNameClient, peopleUri);
   }
 

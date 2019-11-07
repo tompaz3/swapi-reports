@@ -10,7 +10,7 @@ public class PlanetsClient {
 
   private static final String SEARCH_BY_NAME_QUERY_PARAM = "search";
 
-  private final SwapiGetMethodClient genericFindByNameClient;
+  private final SwapiGetMethodClient swapiGetMethodClient;
   private final String getPlanetsUri;
 
   /**
@@ -23,7 +23,7 @@ public class PlanetsClient {
     val uri = SwapiUriBuilder.of(getPlanetsUri)
         .queryParam(SEARCH_BY_NAME_QUERY_PARAM, name)
         .build();
-    return genericFindByNameClient.get(uri, Planets.class);
+    return swapiGetMethodClient.get(uri, Planets.class);
   }
 
 }

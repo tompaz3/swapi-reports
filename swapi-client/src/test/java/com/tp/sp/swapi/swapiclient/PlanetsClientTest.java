@@ -19,7 +19,7 @@ class PlanetsClientTest {
   @BeforeEach
   void setUp() {
     val planetsUri = TestPropertiesHolder.instance().getSwapiClientProperties().getPlanetsUri();
-    val genericFindByNameClient = TestSwapiGenericFindByNameClientProvider.instance().provide();
+    val genericFindByNameClient = TestSwapiGetMethodClientProvider.instance().provide();
     client = new PlanetsClient(genericFindByNameClient, planetsUri);
   }
 

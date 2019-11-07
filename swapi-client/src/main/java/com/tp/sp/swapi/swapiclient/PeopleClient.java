@@ -10,7 +10,7 @@ public class PeopleClient {
 
   private static final String SEARCH_BY_NAME_QUERY_PARAM = "search";
 
-  private final SwapiGetMethodClient genericFindByNameClient;
+  private final SwapiGetMethodClient swapiGetMethodClient;
   private final String getPeopleUri;
 
   /**
@@ -23,6 +23,6 @@ public class PeopleClient {
     val uri = SwapiUriBuilder.of(getPeopleUri)
         .queryParam(SEARCH_BY_NAME_QUERY_PARAM, name)
         .build();
-    return genericFindByNameClient.get(uri, People.class);
+    return swapiGetMethodClient.get(uri, People.class);
   }
 }
