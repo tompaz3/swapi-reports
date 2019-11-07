@@ -19,11 +19,13 @@
   <modules>
     <module>checkstyle</module>
     <module>swapi-client</module>
+    <module>app</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
+    <integration-tests.profile.name>integration-tests</integration-tests.profile.name>
 
     <!-- Plugins -->
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -46,6 +48,12 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- Internal dependencies -->
+      <dependency>
+        <groupId>com.tp.sp.swapi</groupId>
+        <artifactId>swapi-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <!-- Dependencies -->
       <!-- Lombok -->
       <dependency>
@@ -79,7 +87,6 @@
         <artifactId>commons-lang3</artifactId>
         <version>${commons-lang3.version}</version>
       </dependency>
-
 
       <!-- Test dependencies -->
       <!-- JUnit BOM -->

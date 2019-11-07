@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: swapi-reports
+  datasource:
+    url: jdbc:h2:mem:swapi-reports
+    driver-class-name: org.h2.Driver
+    username: sa
+    data-password: sa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties.hibernate.show_sql: false
