@@ -34,7 +34,10 @@
 
     <!-- Dependencies -->
     <lombok.version>1.18.10</lombok.version>
+    <reactor-bom.version>Dysprosium-RELEASE</reactor-bom.version>
     <jackson-bom.version>2.10.0</jackson-bom.version>
+    <vavr.version>0.10.2</vavr.version>
+    <commons-lang3.version>3.9</commons-lang3.version>
 
     <!-- Test dependencies -->
     <junit-bom.version>5.6.0-M1</junit-bom.version>
@@ -50,6 +53,14 @@
         <artifactId>lombok</artifactId>
         <version>${lombok.version}</version>
       </dependency>
+      <!-- Project Reactor BOM -->
+      <dependency>
+        <groupId>io.projectreactor</groupId>
+        <artifactId>reactor-bom</artifactId>
+        <version>${reactor-bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <!-- Jackson BOM -->
       <dependency>
         <groupId>com.fasterxml.jackson</groupId>
@@ -58,6 +69,17 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
+      <dependency>
+        <groupId>io.vavr</groupId>
+        <artifactId>vavr</artifactId>
+        <version>${vavr.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons-lang3.version}</version>
+      </dependency>
+
 
       <!-- Test dependencies -->
       <!-- JUnit BOM -->
