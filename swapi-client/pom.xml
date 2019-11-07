@@ -11,7 +11,52 @@
 
   <artifactId>swapi-client</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+  </dependencies>
 
-
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jsonschema2pojo</groupId>
+        <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+        <configuration>
+          <annotationStyle>jackson2</annotationStyle>
+          <generateBuilders>true</generateBuilders>
+        </configuration>
+        <executions>
+          <execution>
+            <id>generate-swapi</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>${basedir}/src/main/resources/swapi/schema</sourceDirectory>
+              <targetPackage>com.tp.sp.swapi.swapi.jsonschema</targetPackage>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

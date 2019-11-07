@@ -30,9 +30,11 @@
     <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
     <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
     <checkstyle.version>8.25</checkstyle.version>
+    <jsonschema2pojo-maven-plugin.version>1.0.1</jsonschema2pojo-maven-plugin.version>
 
     <!-- Dependencies -->
     <lombok.version>1.18.10</lombok.version>
+    <jackson-bom.version>2.10.0</jackson-bom.version>
 
     <!-- Test dependencies -->
     <junit-bom.version>5.6.0-M1</junit-bom.version>
@@ -47,6 +49,14 @@
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>${lombok.version}</version>
+      </dependency>
+      <!-- Jackson BOM -->
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson-bom.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
 
       <!-- Test dependencies -->
@@ -130,6 +140,12 @@
             <failsOnError>true</failsOnError>
             <resourceExcludes>${project.build.directory}/**</resourceExcludes>
           </configuration>
+        </plugin>
+        <!-- JSON Schema to POJO -->
+        <plugin>
+          <groupId>org.jsonschema2pojo</groupId>
+          <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+          <version>${jsonschema2pojo-maven-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
