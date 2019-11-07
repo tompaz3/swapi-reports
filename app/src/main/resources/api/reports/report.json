@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "$id": "report",
+  "title": "Report",
+  "type": "object",
+  "description": "Report",
+  "required": [
+    "report_id",
+    "query_criteria_character_phrase",
+    "query_criteria_planet_name",
+    "film_id",
+    "film_name",
+    "character_id",
+    "character_name",
+    "planet_id",
+    "planet_name"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "integer",
+      "description": "Report id"
+    },
+    "query_criteria_character_phrase": {
+      "type": "string",
+      "description": "Query Criteria Character Phrase"
+    },
+    "query_criteria_planet_name": {
+      "type": "string",
+      "description": "Query Criteria Planet Name"
+    },
+    "film_id": {
+      "type": "integer",
+      "description": "Film id"
+    },
+    "film_name": {
+      "type": "string",
+      "description": "Film title"
+    },
+    "character_id": {
+      "type": "integer",
+      "description": "Character id"
+    },
+    "character_name": {
+      "type": "string",
+      "description": "Character name"
+    },
+    "planet_id": {
+      "type": "integer",
+      "description": "Planet id"
+    },
+    "planet_name": {
+      "type": "string",
+      "description": "Planet name"
+    }
+  }
+}
