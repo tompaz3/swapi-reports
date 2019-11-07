@@ -9,7 +9,7 @@
       "$id": "#/properties/results",
       "type": "array",
       "items": {
-        "$ref": "planets.json"
+        "$ref": "planet.json"
       }
     }
   }
