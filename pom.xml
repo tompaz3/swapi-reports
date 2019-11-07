@@ -20,6 +20,7 @@
     <module>checkstyle</module>
     <module>swapi-client</module>
     <module>app</module>
+    <module>domain</module>
   </modules>
 
   <properties>

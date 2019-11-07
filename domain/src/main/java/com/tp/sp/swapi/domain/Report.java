@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.domain;
+package com.tp.sp.swapi.domain;
 
 import lombok.Builder;
 import lombok.Value;

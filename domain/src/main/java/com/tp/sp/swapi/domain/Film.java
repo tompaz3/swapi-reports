@@ -1,9 +1,9 @@
-package com.tp.sp.swapi.app.report.domain;
+package com.tp.sp.swapi.domain;
 
 import lombok.Value;
 
 @Value(staticConstructor = "of")
-public class Planet {
+public class Film {
 
   private final int id;
   private final String name;

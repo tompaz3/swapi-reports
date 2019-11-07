@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.domain;
+package com.tp.sp.swapi.domain;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

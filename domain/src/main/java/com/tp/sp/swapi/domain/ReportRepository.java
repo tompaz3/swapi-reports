@@ -1,6 +1,5 @@
-package com.tp.sp.swapi.app.report.domain;
+package com.tp.sp.swapi.domain;
 
-import com.tp.sp.swapi.api.reports.Report;
 import reactor.core.publisher.Mono;
 
 public interface ReportRepository {
