@@ -159,6 +159,8 @@
             <includeTestSourceDirectory>true</includeTestSourceDirectory>
             <includeTestResources>true</includeTestResources>
             <consoleOutput>true</consoleOutput>
+            <violationSeverity>warning</violationSeverity>
+            <failOnViolation>true</failOnViolation>
             <failsOnError>true</failsOnError>
             <resourceExcludes>${project.build.directory}/**</resourceExcludes>
           </configuration>

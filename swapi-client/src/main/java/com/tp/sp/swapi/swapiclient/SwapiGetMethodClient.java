@@ -15,6 +15,14 @@ public class SwapiGetMethodClient {
     this.responseMapper = responseMapper;
   }
 
+  /**
+   * Executes HTTP GET method in a reactive manner, mapping response to given {@code responseType}.
+   *
+   * @param uri GET request URI.
+   * @param responseType expected response object type.
+   * @param <T> response object type.
+   * @return response object mapped to the specified {@code responseType}.
+   */
   public <T> Mono<T> get(String uri, Class<T> responseType) {
     return httpClient
         .headers((h) -> h.add(HttpHeaderNames.ACCEPT, HttpHeaderValues.APPLICATION_JSON))

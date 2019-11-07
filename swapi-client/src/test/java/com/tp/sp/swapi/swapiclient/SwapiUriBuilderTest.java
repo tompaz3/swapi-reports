@@ -1,11 +1,11 @@
 package com.tp.sp.swapi.swapiclient;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Map;
 import java.util.stream.Stream;
 import lombok.val;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -26,7 +26,7 @@ class SwapiUriBuilderTest {
     val mappedUri = builder.build();
 
     // then mapped uri equal to expected
-    Assertions.assertThat(mappedUri).startsWith(expectedUri);
+    assertThat(mappedUri).startsWith(expectedUri);
   }
 
   static Stream<Arguments> uriBuilderTestParams() {

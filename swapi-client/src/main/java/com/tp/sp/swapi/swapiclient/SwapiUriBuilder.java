@@ -1,6 +1,5 @@
 package com.tp.sp.swapi.swapiclient;
 
-
 import static java.lang.String.format;
 
 import io.vavr.collection.HashSet;
@@ -14,6 +13,18 @@ import java.util.Objects;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Swapi URI Builder - adds path variables and query params to the given base URI.
+ *
+ * <p><b>Example usage:</b>
+ *
+ * <p><code>
+ * String uri = SwapiUriBuilder.of("http://example.com/resources/{id}/subresources")<br/>
+ * &nbsp;&nbsp;.pathVariable("id","3") &nbsp;&nbsp;.queryParam("age","13")<br/>
+ * &nbsp;&nbsp;.queryParam("name","a") &nbsp;&nbsp;.build(); <br/> System.out.println(uri); //
+ * prints http://example.com/resources/3/subresources?age=13&name=a &nbsp;<br/>
+ * </code>
+ */
 public class SwapiUriBuilder {
 
   private static final String PATH_VARIABLE_START_STRING = "{";
@@ -32,6 +43,7 @@ public class SwapiUriBuilder {
     this.queryParams = new HashMap<>();
   }
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public SwapiUriBuilder pathVariable(String key, String value) {
     Objects.requireNonNull(key);
     Objects.requireNonNull(value);
