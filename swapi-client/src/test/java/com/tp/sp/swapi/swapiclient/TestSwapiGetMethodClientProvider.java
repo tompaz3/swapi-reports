@@ -3,22 +3,22 @@ package com.tp.sp.swapi.swapiclient;
 import io.vavr.Lazy;
 import lombok.val;
 
-public final class TestSwapiGenericFindByNameClientProvider {
+final class TestSwapiGetMethodClientProvider {
 
-  private static final TestSwapiGenericFindByNameClientProvider INSTANCE
-      = new TestSwapiGenericFindByNameClientProvider();
+  private static final TestSwapiGetMethodClientProvider INSTANCE
+      = new TestSwapiGetMethodClientProvider();
 
   private final Lazy<SwapiGetMethodClient> provider;
 
-  private TestSwapiGenericFindByNameClientProvider() {
+  private TestSwapiGetMethodClientProvider() {
     this.provider = Lazy.of(this::create);
   }
 
-  public SwapiGetMethodClient provide() {
+  SwapiGetMethodClient provide() {
     return provider.get();
   }
 
-  public static TestSwapiGenericFindByNameClientProvider instance() {
+  static TestSwapiGetMethodClientProvider instance() {
     return INSTANCE;
   }
 
