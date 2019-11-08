@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.api;
+package com.tp.sp.swapi.app.report.api.v1;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RequestMapping(value = "/report", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = {"/report", "/v1/report"}, produces = APPLICATION_JSON_VALUE)
 @RestController
-class ReportResource {
+class DefaultReportResource {
 
   @GetMapping
   Flux<Report> getAll() {
@@ -69,6 +69,6 @@ class ReportResource {
 
   @DeleteMapping("/{reportId}")
   void deleteById(@PathVariable int reportId) {
-    
+
   }
 }

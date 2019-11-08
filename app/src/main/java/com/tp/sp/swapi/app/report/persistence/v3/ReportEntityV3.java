@@ -1,5 +1,6 @@
-package com.tp.sp.swapi.app.report.persistence;
+package com.tp.sp.swapi.app.report.persistence.v3;
 
+import com.tp.sp.swapi.app.report.persistence.QueryCriteriaEntity;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,9 +12,9 @@ import lombok.EqualsAndHashCode.Include;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Table(name = "reports")
+@Table(name = "reports_v3")
 @Entity
-public class ReportEntity {
+public class ReportEntityV3 {
 
   @NotNull
   @Include
@@ -22,8 +23,4 @@ public class ReportEntity {
 
   @Embedded
   private QueryCriteriaEntity queryCriteria;
-
-  @Embedded
-  private FilmEntity film;
-
 }
