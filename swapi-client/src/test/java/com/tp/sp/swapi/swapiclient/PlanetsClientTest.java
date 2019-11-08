@@ -42,7 +42,7 @@ class PlanetsClientTest {
     // and all results contain name equal to given param
     val pattern = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
     assertThat(planets.getResults().stream().map(Planet::getName).map(pattern::matcher)
-        .filter(Matcher::find).count()).isEqualTo(planets.getResults().size())
+        .allMatch(Matcher::find)).isTrue()
         .as("Results contain only planets with name containing {}", name);
   }
 

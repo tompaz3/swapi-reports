@@ -9,13 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class FindPersonAndPlanetByCriteriaTest {
+class FindPersonWithFilmAndPlanetByCriteriaTest {
 
-  private FindPersonAndPlanetByCriteria findPersonAndPlanetByCriteria;
+  private FindPersonWithFilmAndPlanetByCriteria findPersonWithFilmAndPlanetByCriteria;
 
   @BeforeEach
   void setUp() {
-    findPersonAndPlanetByCriteria = new FindPersonAndPlanetByCriteria(new FindPeopleByNameStub(),
+    findPersonWithFilmAndPlanetByCriteria = new FindPersonWithFilmAndPlanetByCriteria(
+        new FindPeopleByNameStub(),
         new FindPlanetsByNameStub());
   }
 
@@ -33,8 +34,8 @@ class FindPersonAndPlanetByCriteriaTest {
     val criteria = QueryCriteria.of(characterPhrase, planetName);
 
     // when find
-    val result = findPersonAndPlanetByCriteria.findByCriteria(criteria);
-    val personPlanet = result.block();
+    val result = findPersonWithFilmAndPlanetByCriteria.findByCriteria(criteria);
+    val personPlanet = result.next().block();
 
     // then planet has id 1
     assertThat(personPlanet._2().getId()).isEqualTo(1);
@@ -57,8 +58,8 @@ class FindPersonAndPlanetByCriteriaTest {
     val criteria = QueryCriteria.of(characterPhrase, planetName);
 
     // when find
-    val result = findPersonAndPlanetByCriteria.findByCriteria(criteria);
-    val personPlanet = result.blockOptional();
+    val result = findPersonWithFilmAndPlanetByCriteria.findByCriteria(criteria);
+    val personPlanet = result.next().blockOptional();
 
     // then nothing is found
     assertThat(personPlanet).isEmpty();
@@ -78,8 +79,8 @@ class FindPersonAndPlanetByCriteriaTest {
     val criteria = QueryCriteria.of(characterPhrase, planetName);
 
     // when find
-    val result = findPersonAndPlanetByCriteria.findByCriteria(criteria);
-    val personPlanet = result.blockOptional();
+    val result = findPersonWithFilmAndPlanetByCriteria.findByCriteria(criteria);
+    val personPlanet = result.next().blockOptional();
 
     // then nothing is found
     assertThat(personPlanet).isEmpty();
@@ -99,8 +100,8 @@ class FindPersonAndPlanetByCriteriaTest {
     val criteria = QueryCriteria.of(characterPhrase, planetName);
 
     // when find
-    val result = findPersonAndPlanetByCriteria.findByCriteria(criteria);
-    val personPlanet = result.blockOptional();
+    val result = findPersonWithFilmAndPlanetByCriteria.findByCriteria(criteria);
+    val personPlanet = result.next().blockOptional();
 
     // then nothing is found
     assertThat(personPlanet).isEmpty();
@@ -120,8 +121,8 @@ class FindPersonAndPlanetByCriteriaTest {
     val criteria = QueryCriteria.of(characterPhrase, planetName);
 
     // when find
-    val result = findPersonAndPlanetByCriteria.findByCriteria(criteria);
-    val personPlanet = result.blockOptional();
+    val result = findPersonWithFilmAndPlanetByCriteria.findByCriteria(criteria);
+    val personPlanet = result.next().blockOptional();
 
     // then nothing is found
     assertThat(personPlanet).isEmpty();

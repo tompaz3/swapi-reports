@@ -1,5 +1,7 @@
-package com.tp.sp.swapi.domain;
+package com.tp.sp.swapi.domain.generate;
 
+import com.tp.sp.swapi.domain.FindAllFilms;
+import com.tp.sp.swapi.domain.FindPersonWithFilmAndPlanetByCriteria;
 import com.tp.sp.swapi.domain.model.Film;
 import com.tp.sp.swapi.domain.model.Person;
 import com.tp.sp.swapi.domain.model.Planet;
@@ -12,10 +14,11 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class GenerateReport {
+public class GenerateSingleRecordReport {
 
-  private final FindPersonAndPlanetByCriteria findPersonAndPlanetByCriteria;
+  private final FindPersonWithFilmAndPlanetByCriteria findPersonWithFilmAndPlanetByCriteria;
   private final FindAllFilms findAllFilms;
+  private final GenerateReportFromTupleMapper generateReportFromTupleMapper;
 
   /**
    * Generates report based on given query criteria and report id.
@@ -36,9 +39,10 @@ public class GenerateReport {
    * @return generated report or empty Mono.
    */
   public Mono<Report> generateReport(int reportId, QueryCriteria queryCriteria) {
-    return findPersonAndPlanetByCriteria.findByCriteria(queryCriteria)
+    return findPersonWithFilmAndPlanetByCriteria.findByCriteria(queryCriteria)
+        .next()
         .flatMap(this::findFilm)
-        .map(t3 -> toReport(reportId, queryCriteria, t3));
+        .map(t3 -> generateReportFromTupleMapper.toReport(reportId, queryCriteria, t3));
 
   }
 
@@ -48,17 +52,5 @@ public class GenerateReport {
         .next()
         .map(film -> Tuple.of(personPlanet._1(), personPlanet._2(), film));
   }
-
-  private Report toReport(int reportId, QueryCriteria queryCriteria,
-      Tuple3<Person, Planet, Film> personPlanetFilm) {
-    return Report.builder()
-        .id(reportId)
-        .queryCriteria(queryCriteria)
-        .person(personPlanetFilm._1())
-        .planet(personPlanetFilm._2())
-        .film(personPlanetFilm._3())
-        .build();
-  }
-
 
 }

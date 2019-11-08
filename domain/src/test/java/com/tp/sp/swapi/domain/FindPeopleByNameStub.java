@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.Set;
 import reactor.core.publisher.Flux;
 
-class FindPeopleByNameStub implements FindPeopleByName {
+public class FindPeopleByNameStub implements FindPeopleByName {
 
-  static final String SKYWALKER_NAME = "skywalker";
-  static final String DIFFERENT_PLANET_PEOPLE_NAME = "different_person";
-  static final String NO_FILM_PERSON_NAME = "no_film_person";
-  static final String NO_PEOPLE_NAME = "no_people";
+  public static final String SKYWALKER_NAME = "skywalker";
+  public static final String DIFFERENT_PLANET_PEOPLE_NAME = "different_person";
+  public static final String NO_FILM_PERSON_NAME = "no_film_person";
+  public static final String NO_PEOPLE_NAME = "no_people";
 
   private static final Map<String, List<Person>> PEOPLE = Map.ofEntries(
       Map.entry(SKYWALKER_NAME, List.of(

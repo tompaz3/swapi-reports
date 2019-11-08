@@ -9,22 +9,29 @@ import java.util.Comparator;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-class FindPersonAndPlanetByCriteria {
+public class FindPersonWithFilmAndPlanetByCriteria {
 
   private final FindPeopleByName findPeopleByName;
   private final FindPlanetsByName findPlanetsByName;
 
-  Mono<Tuple2<Person, Planet>> findByCriteria(QueryCriteria queryCriteria) {
+  /**
+   * Searches for people whose name contains {@link QueryCriteria#getCharacterPhrase()} phrase
+   * (ignoring case), who have any films, and whose home world planet is planet which name contains
+   * {@link QueryCriteria#getPlanetName()} phrase.
+   *
+   * @param queryCriteria query criteria.
+   * @return matching person-planet pairs or empty.
+   */
+  public Flux<Tuple2<Person, Planet>> findByCriteria(QueryCriteria queryCriteria) {
     if (queryCriteria.isEmpty()) {
-      return Mono.error(QueryCriteriaEmptyException::new);
+      return Flux.error(QueryCriteriaEmptyException::new);
     }
     val people = findPeopleByName.findByName(queryCriteria.getCharacterPhrase())
         .filter(this::personHasAnyFilm);
     val planets = findPlanetsByName.findByName(queryCriteria.getPlanetName());
-    return zipAndJoin(people, planets).next()
+    return zipAndJoin(people, planets)
         .map(this::toVavrTuple);
   }
 

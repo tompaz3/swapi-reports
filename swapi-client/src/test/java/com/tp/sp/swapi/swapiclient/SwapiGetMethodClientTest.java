@@ -53,7 +53,7 @@ class SwapiGetMethodClientTest {
     // and all results contain name equal to given param
     val pattern = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
     assertThat(films.getResults().stream().map(Film::getTitle).map(pattern::matcher)
-        .filter(Matcher::find).count()).isEqualTo(films.getResults().size())
+        .allMatch(Matcher::find)).isTrue()
         .as("Results contain only films with name containing {}", name);
   }
 

@@ -42,7 +42,7 @@ class PeopleClientTest {
     // and all results contain name equal to given param
     val pattern = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
     assertThat(people.getResults().stream().map(Person::getName).map(pattern::matcher)
-        .filter(Matcher::find).count()).isEqualTo(people.getResults().size())
+        .allMatch(Matcher::find)).isTrue()
         .as("Results contain only people with name containing {}", name);
   }
 

@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 import reactor.core.publisher.Flux;
 
-class FindPlanetsByNameStub implements FindPlanetsByName {
+public class FindPlanetsByNameStub implements FindPlanetsByName {
 
-  static final String TATOOINE_NAME = "Tatooine";
-  static final String ENDOR_NAME = "Endor";
-  static final String N_NAME = "n";
-  static final String NO_PLANETS_NAME = "no_planets";
+  public static final String TATOOINE_NAME = "Tatooine";
+  public static final String ENDOR_NAME = "Endor";
+  public static final String N_NAME = "n";
+  public static final String NO_PLANETS_NAME = "no_planets";
 
   private static final Map<String, List<Planet>> PLANETS = Map.ofEntries(
       Map.entry(TATOOINE_NAME, List.of(Planet.of(1, "Tatooine"))),

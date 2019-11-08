@@ -4,7 +4,7 @@ import com.tp.sp.swapi.domain.model.Film;
 import java.util.List;
 import reactor.core.publisher.Flux;
 
-class FindAllFilmsStub implements FindAllFilms {
+public class FindAllFilmsStub implements FindAllFilms {
 
   private static final List<Film> FILMS = List.of(
       Film.of(1, "A New Hope"),
