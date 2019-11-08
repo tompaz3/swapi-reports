@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.api.v1;
+package com.tp.sp.swapi.app.report.api;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 
 @RequestMapping(value = {"/report", "/v1/report"}, produces = APPLICATION_JSON_VALUE)
 @RestController
-class DefaultReportResource {
+class ReportResource {
 
   @GetMapping
   Flux<Report> getAll() {

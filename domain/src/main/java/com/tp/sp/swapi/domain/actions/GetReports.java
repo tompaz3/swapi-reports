@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class GetReportById {
+public class GetReports {
 
   private final ReportQueryRepository reportQueryRepository;
 
@@ -15,7 +15,7 @@ public class GetReportById {
     return reportQueryRepository.findById(id);
   }
 
-  public Flux<Report> getManyById(int id) {
-    return reportQueryRepository.findManyById(id);
+  public Flux<Report> getAll() {
+    return reportQueryRepository.findAll();
   }
 }

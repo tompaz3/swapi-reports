@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class PutSingleReport {
+public class PutReport {
 
   private final GenerateReport<Mono<Report>> generateSingleReport;
   private final ReportQueryRepository reportQueryRepository;

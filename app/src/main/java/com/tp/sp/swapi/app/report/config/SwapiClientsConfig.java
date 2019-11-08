@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report;
+package com.tp.sp.swapi.app.report.config;
 
 import com.tp.sp.swapi.app.report.properties.SwapiProperties;
 import com.tp.sp.swapi.swapiclient.JsonMapperProvider;

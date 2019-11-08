@@ -8,7 +8,5 @@ public interface ReportQueryRepository {
 
   Mono<Report> findById(int reportId);
 
-  Flux<Report> findManyById(int reportId);
-
   Flux<Report> findAll();
 }

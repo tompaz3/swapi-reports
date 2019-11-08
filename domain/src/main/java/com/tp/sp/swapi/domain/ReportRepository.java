@@ -9,7 +9,7 @@ public interface ReportRepository {
 
   Mono<Report> overwrite(Report report);
 
-  void deleteAll();
+  Mono<Void> deleteAll();
 
-  void deleteById(int reportId);
+  Mono<Void> deleteById(int reportId);
 }

@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report;
+package com.tp.sp.swapi.app.report.config;
 
 import com.tp.sp.swapi.app.report.find.FindAllFilmsSwapi;
 import com.tp.sp.swapi.app.report.find.FindPeopleByNameSwapi;
@@ -16,7 +16,6 @@ import com.tp.sp.swapi.swapiclient.SwapiClientsFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @DependsOn("swapiClientsFactory")
@@ -45,21 +44,9 @@ public class GeneratorConfig {
     return new GenerateReportFactory(findPeopleByName, findPlanetsByName, findAllFilms);
   }
 
-  @Bean(name = "generateReportV1")
+  @Bean
   public GenerateReport<Mono<Report>> singleReportGenerator(
       GenerateReportFactory generateReportFactory) {
     return generateReportFactory.personPlanetFilm();
-  }
-
-  @Bean(name = "generateReportV2")
-  public GenerateReport<Flux<Report>> personPlanetPairFilmsGenerator(
-      GenerateReportFactory generateReportFactory) {
-    return generateReportFactory.personPlanetPairAllFilms();
-  }
-
-  @Bean(name = "generateReportV3")
-  public GenerateReport<Flux<Report>> personPlanetPairsFilmsGenerator(
-      GenerateReportFactory generateReportFactory) {
-    return generateReportFactory.allPeoplePlanetPairsAllFilms();
   }
 }
