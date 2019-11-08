@@ -21,7 +21,11 @@
     },
     "films": {
       "type": "array",
-      "description": "An array of urls of film resources that this person has been in."
+      "description": "An array of urls of film resources that this person has been in.",
+      "items": {
+        "type": "string",
+        "title": "Urls"
+      }
     },
     "url": {
       "type": "string",

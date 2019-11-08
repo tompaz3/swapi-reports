@@ -55,6 +55,11 @@
         <artifactId>swapi-client</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.tp.sp.swapi</groupId>
+        <artifactId>domain</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <!-- Dependencies -->
       <!-- Lombok -->
       <dependency>

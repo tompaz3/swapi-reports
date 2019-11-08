@@ -9,3 +9,10 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     properties.hibernate.show_sql: false
+
+swapi:
+  client:
+    base-url: "https://swapi.co"
+    people-uri: "/api/people"
+    films-uri: "/api/films"
+    planets-uri: "/api/planets"
