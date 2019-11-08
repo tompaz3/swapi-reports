@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
 @RequiredArgsConstructor
-public class GenerateSinglePairAllFilmsReport {
+public class GenerateAllPersonPlanetPairFilmsReport {
 
   private final FindPersonWithFilmAndPlanetByCriteria findPersonWithFilmAndPlanetByCriteria;
   private final FindAllFilms findAllFilms;
@@ -29,8 +29,8 @@ public class GenerateSinglePairAllFilmsReport {
    * <p>If no planet - character pair is
    * found, report is not generated.
    *
-   * <p>If more than one planet - character pair matches the query, first pair found is used for
-   * the report. Pairs containing people for whom no film exists, are filtered out.
+   * <p>If more than one planet - character pair matches the query, {@link Report} instances are
+   * generated for every pair.
    *
    * <p>If person has more than one film, all films found are mapped and multiple {@link Report}
    * instances are generated.
@@ -40,8 +40,7 @@ public class GenerateSinglePairAllFilmsReport {
    * @return generated {@link Report} instances or empty Flux.
    */
   public Flux<Report> generateReport(int reportId, QueryCriteria queryCriteria) {
-    return Flux.from(
-        findPersonWithFilmAndPlanetByCriteria.findByCriteria(queryCriteria).next())
+    return findPersonWithFilmAndPlanetByCriteria.findByCriteria(queryCriteria)
         .flatMap(this::findFilms)
         .map(t3 -> generateReportFromTupleMapper.toReport(reportId, queryCriteria, t3));
   }

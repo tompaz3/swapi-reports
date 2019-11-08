@@ -3,7 +3,10 @@ package com.tp.sp.swapi.domain;
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.tp.sp.swapi.domain.model.Person;
+import com.tp.sp.swapi.domain.model.Planet;
 import com.tp.sp.swapi.domain.model.QueryCriteria;
+import io.vavr.Tuple2;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +21,36 @@ class FindPersonWithFilmAndPlanetByCriteriaTest {
     findPersonWithFilmAndPlanetByCriteria = new FindPersonWithFilmAndPlanetByCriteria(
         new FindPeopleByNameStub(),
         new FindPlanetsByNameStub());
+  }
+
+  @DisplayName("given: people whose home world is 1 "
+      + "and planets, one of which has id 1, "
+      + "when: find, "
+      + "then: all person - planet pairs found")
+  @Test
+  void givenPeopleFromPlanet1AndPlanetsOneOfWhichIs1WhenFindThenAllPairsFound() {
+    // given people from home world 1
+    val characterPhrase = FindPeopleByNameStub.SKYWALKER_NAME;
+    // and planets, one of which has id 1
+    val planetName = FindPlanetsByNameStub.N_NAME;
+    // and criteria
+    val criteria = QueryCriteria.of(characterPhrase, planetName);
+
+    // when find
+    val result = findPersonWithFilmAndPlanetByCriteria.findByCriteria(criteria);
+    val personPlanets = result.collectList().block();
+
+    // then all records planets have id 1
+    assertThat(
+        personPlanets.stream().map(Tuple2::_2).map(Planet::getId).distinct().reduce((a, b) -> {
+          throw new RuntimeException("Different planet ids");
+        }).get()).isEqualTo(1);
+    // and person name contains character phrase
+    assertThat(personPlanets.stream().map(Tuple2::_1).map(Person::getName)
+        .allMatch(n -> containsIgnoreCase(n, FindPeopleByNameStub.SKYWALKER_NAME)))
+        .isTrue();
+    // and 3 different people found
+    assertThat(personPlanets.stream().map(Tuple2::_1).distinct().count()).isEqualTo(3);
   }
 
   @DisplayName("given: people whose home world is 1 "
