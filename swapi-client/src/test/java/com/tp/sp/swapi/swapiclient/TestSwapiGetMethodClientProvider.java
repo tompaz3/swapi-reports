@@ -24,8 +24,7 @@ final class TestSwapiGetMethodClientProvider {
 
   private SwapiGetMethodClient create() {
     val swapiClientProperties = TestPropertiesHolder.instance().getSwapiClientProperties();
-    val swapiResponseMapper = new SwapiResponseMapper(
-        new JsonMapperProvider().provide());
+    val swapiResponseMapper = new SwapiResponseMapper(new JsonMapperProvider());
     return new SwapiGetMethodClient(swapiClientProperties.getBaseUrl(),
         swapiResponseMapper);
   }

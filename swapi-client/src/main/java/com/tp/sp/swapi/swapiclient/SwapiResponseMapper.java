@@ -2,12 +2,14 @@ package com.tp.sp.swapi.swapiclient;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.vavr.control.Try;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class SwapiResponseMapper {
 
   private final JsonMapper jsonMapper;
+
+  public SwapiResponseMapper(JsonMapperProvider jsonMapperProvider) {
+    this.jsonMapper = jsonMapperProvider.provide();
+  }
 
   public <T> T toSwapiResponse(String content, Class<T> responseType) {
     return toPojo(content, responseType);

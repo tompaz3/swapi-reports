@@ -3,6 +3,7 @@ package com.tp.sp.swapi.swapiclient;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tp.sp.swapi.swapi.jsonschema.Planet;
+import com.tp.sp.swapi.swapiclient.page.FindAllPages;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.val;
@@ -19,8 +20,8 @@ class PlanetsClientTest {
   @BeforeEach
   void setUp() {
     val planetsUri = TestPropertiesHolder.instance().getSwapiClientProperties().getPlanetsUri();
-    val genericFindByNameClient = TestSwapiGetMethodClientProvider.instance().provide();
-    client = new PlanetsClient(genericFindByNameClient, planetsUri);
+    val getMethodClient = TestSwapiGetMethodClientProvider.instance().provide();
+    client = new PlanetsClient(new FindAllPages<>(getMethodClient), getMethodClient, planetsUri);
   }
 
   @DisplayName("given: valid planets name as query param, "

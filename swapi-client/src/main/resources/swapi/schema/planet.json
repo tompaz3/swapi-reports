@@ -6,21 +6,16 @@
   "description": "A planet.",
   "required": [
     "name",
-    "residents",
-    "films"
+    "url"
   ],
   "properties": {
     "name": {
       "type": "string",
       "description": "The name of this planet."
     },
-    "residents": {
-      "type": "array",
-      "description": "An array of People URL Resources that live on this planet."
-    },
-    "films": {
-      "type": "array",
-      "description": "An array of Film URL Resources that this planet has appeared in."
+    "url": {
+      "type": "string",
+      "description": "The hypermedia URL of this resource."
     }
   }
 }

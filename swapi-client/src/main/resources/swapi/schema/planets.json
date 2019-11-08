@@ -5,6 +5,10 @@
   "type": "object",
   "title": "Planets Schema",
   "properties": {
+    "next": {
+      "type": "string",
+      "description": "The hypermedia URL of the next page of this resource."
+    },
     "results": {
       "$id": "#/properties/results",
       "type": "array",

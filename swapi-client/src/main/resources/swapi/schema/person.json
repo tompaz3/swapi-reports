@@ -7,24 +7,25 @@
   "required": [
     "name",
     "homeworld",
-    "films"
+    "films",
+    "url"
   ],
   "properties": {
-    "species": {
-      "type": "array",
-      "description": "The url of the species resource that this person is."
-    },
-    "films": {
-      "type": "array",
-      "description": "An array of urls of film resources that this person has been in."
+    "name": {
+      "type": "string",
+      "description": "The name of this person."
     },
     "homeworld": {
       "type": "string",
       "description": "The url of the planet resource that this person was born on."
     },
-    "name": {
+    "films": {
+      "type": "array",
+      "description": "An array of urls of film resources that this person has been in."
+    },
+    "url": {
       "type": "string",
-      "description": "The name of this person."
+      "description": "The hypermedia URL of this resource."
     }
   }
 }

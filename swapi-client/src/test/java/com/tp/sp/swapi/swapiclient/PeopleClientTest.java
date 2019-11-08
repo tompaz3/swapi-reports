@@ -3,6 +3,7 @@ package com.tp.sp.swapi.swapiclient;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tp.sp.swapi.swapi.jsonschema.Person;
+import com.tp.sp.swapi.swapiclient.page.FindAllPages;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.val;
@@ -19,8 +20,8 @@ class PeopleClientTest {
   @BeforeEach
   void setUp() {
     val peopleUri = TestPropertiesHolder.instance().getSwapiClientProperties().getPeopleUri();
-    val genericFindByNameClient = TestSwapiGetMethodClientProvider.instance().provide();
-    client = new PeopleClient(genericFindByNameClient, peopleUri);
+    val getMethodClient = TestSwapiGetMethodClientProvider.instance().provide();
+    client = new PeopleClient(new FindAllPages<>(getMethodClient), getMethodClient, peopleUri);
   }
 
   @DisplayName("given: valid people name as query param, "

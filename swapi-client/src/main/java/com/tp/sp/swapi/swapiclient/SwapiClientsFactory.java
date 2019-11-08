@@ -1,5 +1,7 @@
 package com.tp.sp.swapi.swapiclient;
 
+import com.tp.sp.swapi.swapiclient.page.FindAllPages;
+
 public class SwapiClientsFactory {
 
   private final SwapiClientProperties swapiClientProperties;
@@ -18,15 +20,22 @@ public class SwapiClientsFactory {
   public SwapiClientsFactory(SwapiClientProperties swapiClientProperties,
       SwapiResponseMapper responseMapper) {
     this.swapiClientProperties = swapiClientProperties;
-    this.getMethodClient = new SwapiGetMethodClient(
-        swapiClientProperties.getBaseUrl(), responseMapper);
+    this.getMethodClient = new SwapiGetMethodClient(swapiClientProperties.getBaseUrl(),
+        responseMapper);
   }
 
   public PeopleClient createPeopleClient() {
-    return new PeopleClient(getMethodClient, swapiClientProperties.getPeopleUri());
+    return new PeopleClient(new FindAllPages<>(getMethodClient), getMethodClient,
+        swapiClientProperties.getPeopleUri());
   }
 
   public PlanetsClient createPlanetsClient() {
-    return new PlanetsClient(getMethodClient, swapiClientProperties.getPlanetsUri());
+    return new PlanetsClient(new FindAllPages<>(getMethodClient), getMethodClient,
+        swapiClientProperties.getPlanetsUri());
+  }
+
+  public FilmsClient createFilmsClient() {
+    return new FilmsClient(new FindAllPages<>(getMethodClient), getMethodClient,
+        swapiClientProperties.getFilmsUri());
   }
 }

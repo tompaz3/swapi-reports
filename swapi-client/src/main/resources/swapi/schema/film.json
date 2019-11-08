@@ -6,26 +6,16 @@
   "description": "A Star Wars film",
   "required": [
     "title",
-    "episode_id",
-    "characters",
-    "planets"
+    "url"
   ],
   "properties": {
-    "planets": {
-      "type": "array",
-      "description": "The planet resources featured within this film."
-    },
-    "characters": {
-      "type": "array",
-      "description": "The people resources featured within this film."
-    },
-    "episode_id": {
-      "type": "integer",
-      "description": "The episode number of this film."
-    },
     "title": {
       "type": "string",
       "description": "The title of this film."
+    },
+    "url": {
+      "type": "string",
+      "description": "The hypermedia URL of this resource."
     }
   }
 }
