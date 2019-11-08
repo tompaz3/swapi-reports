@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class GenerateSingleRecordReport {
+public class GenerateSingleRecordReport implements GenerateReport<Mono<Report>> {
 
   private final FindPersonWithFilmAndPlanetByCriteria findPersonWithFilmAndPlanetByCriteria;
   private final FindAllFilms findAllFilms;
@@ -38,6 +38,7 @@ public class GenerateSingleRecordReport {
    * @param queryCriteria query criteria ({@code planet name} and {@code character phrase}).
    * @return generated report or empty Mono.
    */
+  @Override
   public Mono<Report> generateReport(int reportId, QueryCriteria queryCriteria) {
     return findPersonWithFilmAndPlanetByCriteria.findByCriteria(queryCriteria)
         .next()

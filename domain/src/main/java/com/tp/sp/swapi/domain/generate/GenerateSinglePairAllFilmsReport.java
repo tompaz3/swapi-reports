@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
 @RequiredArgsConstructor
-public class GenerateSinglePairAllFilmsReport {
+public class GenerateSinglePairAllFilmsReport implements GenerateReport<Flux<Report>> {
 
   private final FindPersonWithFilmAndPlanetByCriteria findPersonWithFilmAndPlanetByCriteria;
   private final FindAllFilms findAllFilms;
@@ -39,6 +39,7 @@ public class GenerateSinglePairAllFilmsReport {
    * @param queryCriteria query criteria ({@code planet name} and {@code character phrase}).
    * @return generated {@link Report} instances or empty Flux.
    */
+  @Override
   public Flux<Report> generateReport(int reportId, QueryCriteria queryCriteria) {
     return Flux.from(
         findPersonWithFilmAndPlanetByCriteria.findByCriteria(queryCriteria).next())
