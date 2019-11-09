@@ -4,6 +4,7 @@ import com.tp.sp.swapi.api.reports.QueryCriteria;
 import com.tp.sp.swapi.api.reports.Report;
 import com.tp.sp.swapi.app.report.api.ReportResourceApi;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,14 +23,18 @@ public class ReportResource implements ReportResourceApi {
   }
 
   @Override
-  public Mono<Report> getById(@PathVariable int reportId) {
-    return reportResourceService.getById(reportId);
+  public Mono<?> getById(@PathVariable int reportId) {
+    return reportResourceService.getById(reportId)
+        .map(ResponseEntity::ok)
+        .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 
   @Override
-  public Mono<Report> putReport(@PathVariable int reportId,
+  public Mono<?> putReport(@PathVariable int reportId,
       @RequestBody QueryCriteria queryCriteria) {
-    return reportResourceService.putReport(reportId, queryCriteria);
+    return reportResourceService.putReport(reportId, queryCriteria)
+        .map(ResponseEntity::ok)
+        .switchIfEmpty(Mono.just(ResponseEntity.badRequest().build()));
   }
 
   @Override

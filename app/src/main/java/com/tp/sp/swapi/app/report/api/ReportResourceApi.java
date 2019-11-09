@@ -20,10 +20,10 @@ public interface ReportResourceApi {
   Flux<Report> getAll();
 
   @GetMapping(value = "/{reportId}")
-  Mono<Report> getById(@PathVariable int reportId);
+  Mono<?> getById(@PathVariable int reportId);
 
   @PutMapping(value = "/{reportId}", consumes = APPLICATION_JSON_VALUE)
-  Mono<Report> putReport(@PathVariable int reportId, @RequestBody QueryCriteria queryCriteria);
+  Mono<?> putReport(@PathVariable int reportId, @RequestBody QueryCriteria queryCriteria);
 
   @DeleteMapping
   Mono<Void> deleteAll();
