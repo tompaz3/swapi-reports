@@ -3,7 +3,7 @@ package com.tp.sp.swapi.app.report.api;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.tp.sp.swapi.api.reports.QueryCriteria;
-import com.tp.sp.swapi.app.report.api.multiple.MultipleReports;
+import com.tp.sp.swapi.api.reports.Reports;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,7 +24,7 @@ public interface MultipleReportResourceApi {
   @Operation(summary = "Retrieves all reports")
   @ApiResponse(responseCode = "200", description = "OK")
   @GetMapping
-  ResponseEntity<List<MultipleReports>> getAll();
+  ResponseEntity<List<Reports>> getAll();
 
   @Operation(summary = "Retrieves report for given report id")
   @ApiResponses(value = {
@@ -32,7 +32,7 @@ public interface MultipleReportResourceApi {
       @ApiResponse(responseCode = "404", description = "Report with such report id does not exist")
   })
   @GetMapping(value = "/{reportId}")
-  ResponseEntity<MultipleReports> getById(
+  ResponseEntity<Reports> getById(
       @Parameter(description = "Report id", required = true) @PathVariable int reportId);
 
   @Operation(summary = "Create new report for given report id")
@@ -42,7 +42,7 @@ public interface MultipleReportResourceApi {
           description = "Report could not be generated based on given criteria")
   })
   @PutMapping(value = "/{reportId}", consumes = APPLICATION_JSON_VALUE)
-  ResponseEntity<MultipleReports> putReport(
+  ResponseEntity<Reports> putReport(
       @Parameter(description = "Report id", required = true) @PathVariable int reportId,
       @Parameter(description = "Query criteria", required = true)
       @RequestBody QueryCriteria queryCriteria);

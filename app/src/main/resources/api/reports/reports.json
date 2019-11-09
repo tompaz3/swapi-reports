@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "$id": "report",
+  "title": "Report",
+  "type": "object",
+  "description": "Report",
+  "required": [
+    "entries"
+  ],
+  "properties": {
+    "entries": {
+      "$ref": "report.json",
+      "description": "Report entries"
+    }
+  }
+}
