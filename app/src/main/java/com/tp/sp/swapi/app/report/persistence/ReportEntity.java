@@ -1,5 +1,6 @@
 package com.tp.sp.swapi.app.report.persistence;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ public class ReportEntity {
   @NotNull
   @Include
   @Id
+  @Column(name = "report_id")
   private Integer id;
 
   @Embedded
