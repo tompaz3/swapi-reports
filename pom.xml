@@ -41,6 +41,7 @@
     <jackson-bom.version>2.10.0</jackson-bom.version>
     <vavr.version>0.10.2</vavr.version>
     <commons-lang3.version>3.9</commons-lang3.version>
+    <springdoc-openapi-ui.version>1.2.4</springdoc-openapi-ui.version>
 
     <!-- Test dependencies -->
     <junit-bom.version>5.6.0-M1</junit-bom.version>
@@ -93,6 +94,11 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>${commons-lang3.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>${springdoc-openapi-ui.version}</version>
       </dependency>
 
       <!-- Test dependencies -->

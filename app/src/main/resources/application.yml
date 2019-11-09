@@ -24,3 +24,7 @@ swapi:
     people-uri: "/api/people/"
     films-uri: "/api/films/"
     planets-uri: "/api/planets/"
+
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"
