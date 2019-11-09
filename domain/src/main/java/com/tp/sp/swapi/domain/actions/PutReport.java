@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 public class PutReport {
 
   private final GenerateReport<Mono<Report>> generateSingleReport;
-  private final ReportQueryRepository reportQueryRepository;
+  private final ReportQueryRepository<Mono<Report>> reportQueryRepository;
   private final ReportRepository reportRepository;
 
   public Mono<Report> putReport(int reportId, QueryCriteria queryCriteria) {

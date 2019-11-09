@@ -40,12 +40,12 @@ public class ReportResource implements ReportResourceApi {
   @Override
   public Mono<ResponseEntity> deleteAll() {
     return reportResourceService.deleteAll()
-        .map(i -> ResponseEntity.accepted().build());
+        .thenReturn(ResponseEntity.accepted().build());
   }
 
   @Override
   public Mono<ResponseEntity> deleteById(@PathVariable int reportId) {
     return reportResourceService.deleteById(reportId)
-        .map(i -> ResponseEntity.accepted().build());
+        .thenReturn(ResponseEntity.accepted().build());
   }
 }

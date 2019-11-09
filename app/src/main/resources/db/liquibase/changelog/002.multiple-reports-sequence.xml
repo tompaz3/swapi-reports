@@ -3,10 +3,7 @@
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-
-  <include file="/db/liquibase/changelog/001.initialize.xml"/>
-  <include file="/db/liquibase/changelog/test/002.multiple-reports-sequence.xml"/>
-  <include file="/db/liquibase/changelog/003.multiple-film-reports.xml"/>
-  <include file="/db/liquibase/changelog/test/insert-test-data.xml"/>
-
+  <changeSet author="tom" id="multiple-film-reports">
+    <createSequence sequenceName="multiple_reports_seq" startValue="1" incrementBy="1"/>
+  </changeSet>
 </databaseChangeLog>

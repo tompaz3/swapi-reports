@@ -4,14 +4,13 @@ import com.tp.sp.swapi.domain.ReportQueryRepository;
 import com.tp.sp.swapi.domain.model.Report;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class GetReports {
+public class GetManyReports {
 
-  private final ReportQueryRepository<Mono<Report>> reportQueryRepository;
+  private final ReportQueryRepository<Flux<Report>> reportQueryRepository;
 
-  public Mono<Report> getById(int id) {
+  public Flux<Report> getById(int id) {
     return reportQueryRepository.findById(id);
   }
 

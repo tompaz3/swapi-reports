@@ -2,9 +2,8 @@ package com.tp.sp.swapi.app.report.api;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
-import static org.hamcrest.Matchers.containsStringIgnoringCase;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -12,67 +11,70 @@ import static org.springframework.http.HttpStatus.OK;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.sp.swapi.api.reports.QueryCriteria;
 import com.tp.sp.swapi.api.reports.Report;
-import com.tp.sp.swapi.app.AppTestTags;
+import com.tp.sp.swapi.api.reports.Reports;
 import com.tp.sp.swapi.app.report.RestAssuredTest;
 import java.util.List;
 import lombok.SneakyThrows;
 import lombok.val;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
-@Tag((AppTestTags.APP_INTEGRATION_TEST))
-@ActiveProfiles("test")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class ReportResourceApiTest extends RestAssuredTest {
+class MultipleReportResourceApiTest extends RestAssuredTest {
 
-  @DisplayName("given: 5 records in reports db, "
+  private static final String REPORT_URI = "/v2/report";
+
+  @SneakyThrows
+  @DisplayName("given: 11 records in reports db, "
       + "when: get all reports, "
       + "then expected reports returned")
   @Test
   void givenDataInDbWhenGetAllReportsThenExpectedReportsReturned() {
-    given()
+    val jsonResponse = given()
         .accept(JSON)
         .when()
-        .get("/report")
+        .get(REPORT_URI)
         .then()
         .log().ifError()
         .statusCode(OK.value())
         .contentType(JSON)
-        .body("report_id", hasItems(1, 2, 3, 4, 5));
+        .extract().asString();
+
+    val response = objectMapper.readValue(jsonResponse, new TypeReference<List<Reports>>() {
+    });
+
+    // then response has 5 reports
+    assertThat(response).hasSize(5);
   }
 
+  @SneakyThrows
   @DisplayName("given: records in reports db, "
       + "when: get report by existing reportId, "
       + "then: report returned")
   @Test
   void givenDataInDbWhenGetExistingReportThenReportReturned() {
     val reportId = 1;
-    given()
+    val jsonResponse = given()
         .accept(JSON)
         .when()
-        .get("/report/" + reportId)
+        .get(REPORT_URI + "/" + reportId)
         .then()
         .log().ifError()
         .statusCode(OK.value())
         .contentType(JSON)
-        .body("report_id", equalTo(reportId))
-        .body("query_criteria_character_phrase", equalTo("sky"))
-        .body("query_criteria_planet_name", equalTo("tat"))
-        .body("character_id", equalTo(1))
-        .body("character_name", equalTo("Luke Skywalker"))
-        .body("planet_id", equalTo(1))
-        .body("planet_name", equalTo("Tatooine"))
-        .body("film_id", equalTo(2))
-        .body("film_name", equalTo("The Empire Strikes Back"))
-    ;
+        .extract().asString();
+
+    val response = objectMapper.readValue(jsonResponse, Reports.class);
+
+    // then report has 7 entries
+    assertThat(response.getEntries()).hasSize(7);
+    // and all reports has valid id
+    assertThat(
+        response.getEntries().stream().map(Report::getReportId).allMatch(id -> id == reportId))
+        .isTrue();
   }
 
+  @SneakyThrows
   @DisplayName("given: valid query criteria and reportId, "
       + "when: put, "
       + "then: expected report created")
@@ -81,26 +83,33 @@ class ReportResourceApiTest extends RestAssuredTest {
     val reportId = 6;
     val queryCriteria = new QueryCriteria().withQueryCriteriaCharacterPhrase("darth")
         .withQueryCriteriaPlanetName("tatooine");
-    given()
+    val jsonResponse = given()
         .contentType(JSON)
         .accept(JSON)
         .body(queryCriteria)
         .when()
-        .put("/report/" + reportId)
+        .put(REPORT_URI + "/" + reportId)
         .then()
         .log().ifError()
         .statusCode(OK.value())
         .contentType(JSON)
-        .body("report_id", equalTo(reportId))
-        .body("query_criteria_character_phrase",
-            equalTo(queryCriteria.getQueryCriteriaCharacterPhrase()))
-        .body("query_criteria_planet_name", equalTo(queryCriteria.getQueryCriteriaPlanetName()))
-        .body("character_name",
-            containsStringIgnoringCase(queryCriteria.getQueryCriteriaCharacterPhrase()))
-        .body("planet_name",
-            containsStringIgnoringCase(queryCriteria.getQueryCriteriaPlanetName()));
+        .extract().asString();
+
+    val response = objectMapper.readValue(jsonResponse, Reports.class);
+
+    // then generated more than 1 entry
+    assertThat(response.getEntries()).hasSizeGreaterThan(1);
+    // and all entries have valid id
+    assertThat(response.getEntries().stream().map(Report::getReportId)
+        .allMatch(id -> reportId == id)).isTrue();
+    // and all entries have the same criteria
+    // and contain criteria strings in planet names and character names
+    assertThat(response.getEntries().stream()
+        .allMatch(r -> hasDataAsInQueryCriteria(r, queryCriteria)))
+        .isTrue();
   }
 
+  @SneakyThrows
   @DisplayName("given: valid query criteria and existing report, "
       + "when: create new report for the same id, "
       + "then: old report is overwritten")
@@ -115,7 +124,7 @@ class ReportResourceApiTest extends RestAssuredTest {
         .accept(JSON)
         .body(queryCriteria)
         .when()
-        .put("/report/" + reportId)
+        .put(REPORT_URI + "/" + reportId)
         .then()
         .log().ifError()
         .statusCode(OK.value());
@@ -128,39 +137,35 @@ class ReportResourceApiTest extends RestAssuredTest {
         .accept(JSON)
         .body(queryCriteriaOverwrite)
         .when()
-        .put("/report/" + reportId)
+        .put(REPORT_URI + "/" + reportId)
         .then()
         .log().ifError()
         .statusCode(OK.value())
-        .contentType(JSON)
-        .body("report_id", equalTo(reportId))
-        .body("query_criteria_character_phrase",
-            equalTo(queryCriteriaOverwrite.getQueryCriteriaCharacterPhrase()))
-        .body("query_criteria_planet_name",
-            equalTo(queryCriteriaOverwrite.getQueryCriteriaPlanetName()))
-        .body("character_name",
-            containsStringIgnoringCase(queryCriteriaOverwrite.getQueryCriteriaCharacterPhrase()))
-        .body("planet_name",
-            containsStringIgnoringCase(queryCriteriaOverwrite.getQueryCriteriaPlanetName()));
+        .contentType(JSON);
 
     // then get by id returned overwritten report
-    given()
+    val jsonResponse = given()
         .accept(JSON)
         .when()
-        .get("/report/" + reportId)
+        .get(REPORT_URI + "/" + reportId)
         .then()
         .log().ifError()
         .statusCode(OK.value())
         .contentType(JSON)
-        .body("report_id", equalTo(reportId))
-        .body("query_criteria_character_phrase",
-            equalTo(queryCriteriaOverwrite.getQueryCriteriaCharacterPhrase()))
-        .body("query_criteria_planet_name",
-            equalTo(queryCriteriaOverwrite.getQueryCriteriaPlanetName()))
-        .body("character_name",
-            containsStringIgnoringCase(queryCriteriaOverwrite.getQueryCriteriaCharacterPhrase()))
-        .body("planet_name",
-            containsStringIgnoringCase(queryCriteriaOverwrite.getQueryCriteriaPlanetName()));
+        .extract().asString();
+
+    val response = objectMapper.readValue(jsonResponse, Reports.class);
+
+    // then generated more than 1 entry
+    assertThat(response.getEntries()).hasSizeGreaterThan(1);
+    // and all entries have valid id
+    assertThat(response.getEntries().stream().map(Report::getReportId)
+        .allMatch(id -> reportId == id)).isTrue();
+    // and all entries have the same criteria
+    // and contain criteria strings in planet names and character names
+    assertThat(response.getEntries().stream()
+        .allMatch(r -> hasDataAsInQueryCriteria(r, queryCriteriaOverwrite)))
+        .isTrue();
   }
 
   @DisplayName("given: report with id, "
@@ -177,7 +182,7 @@ class ReportResourceApiTest extends RestAssuredTest {
         .accept(JSON)
         .body(queryCriteria)
         .when()
-        .put("/report/" + reportId)
+        .put(REPORT_URI + "/" + reportId)
         .then()
         .log().ifError()
         .statusCode(OK.value());
@@ -185,7 +190,7 @@ class ReportResourceApiTest extends RestAssuredTest {
     // when delete by id
     given()
         .when()
-        .delete("/report/" + reportId)
+        .delete(REPORT_URI + "/" + reportId)
         .then()
         .log().ifError()
         .statusCode(ACCEPTED.value());
@@ -194,7 +199,7 @@ class ReportResourceApiTest extends RestAssuredTest {
     given()
         .accept(JSON)
         .when()
-        .get("/report/" + reportId)
+        .get(REPORT_URI + "/" + reportId)
         .then()
         .log().ifError()
         .statusCode(NOT_FOUND.value());
@@ -209,7 +214,7 @@ class ReportResourceApiTest extends RestAssuredTest {
   void givenReportsWhenDeleteAllThenAllDeleted() {
     // when delete all
     given()
-        .delete("/report")
+        .delete(REPORT_URI)
         .then()
         .log().ifError()
         .statusCode(ACCEPTED.value());
@@ -218,7 +223,7 @@ class ReportResourceApiTest extends RestAssuredTest {
     val reportString = given()
         .accept(JSON)
         .when()
-        .get("/report")
+        .get(REPORT_URI)
         .then()
         .log().ifError()
         .statusCode(OK.value())
@@ -228,7 +233,14 @@ class ReportResourceApiTest extends RestAssuredTest {
         .asString();
     val reports = objectMapper.readValue(reportString, new TypeReference<List<Report>>() {
     });
-    Assertions.assertThat(reports).isEmpty();
+    assertThat(reports).isEmpty();
   }
 
+  private boolean hasDataAsInQueryCriteria(Report r, QueryCriteria qc) {
+    return
+        r.getQueryCriteriaCharacterPhrase().equals(qc.getQueryCriteriaCharacterPhrase())
+            && r.getQueryCriteriaPlanetName().equals(qc.getQueryCriteriaPlanetName())
+            && containsIgnoreCase(r.getCharacterName(), qc.getQueryCriteriaCharacterPhrase())
+            && containsIgnoreCase(r.getPlanetName(), qc.getQueryCriteriaPlanetName());
+  }
 }

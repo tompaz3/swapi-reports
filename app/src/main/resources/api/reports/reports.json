@@ -9,8 +9,11 @@
   ],
   "properties": {
     "entries": {
-      "$ref": "report.json",
-      "description": "Report entries"
+      "description": "Report entries",
+      "type": "array",
+      "items": {
+        "$ref": "report.json"
+      }
     }
   }
 }

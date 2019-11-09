@@ -1,12 +1,12 @@
 package com.tp.sp.swapi.domain;
 
 import com.tp.sp.swapi.domain.model.Report;
+import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-public interface ReportQueryRepository {
+public interface ReportQueryRepository<T extends Publisher<Report>> {
 
-  Mono<Report> findById(int reportId);
+  T findById(int reportId);
 
   Flux<Report> findAll();
 }

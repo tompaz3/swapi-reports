@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.persistence.single;
+package com.tp.sp.swapi.app.report.persistence.shared;
 
 import io.vavr.control.Option;
 import org.springframework.dao.EmptyResultDataAccessException;

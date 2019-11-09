@@ -5,12 +5,11 @@ import com.tp.sp.swapi.api.reports.Report;
 import com.tp.sp.swapi.domain.actions.DeleteReports;
 import com.tp.sp.swapi.domain.actions.GetReports;
 import com.tp.sp.swapi.domain.actions.PutReport;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RequiredArgsConstructor
 @Service
 class ReportResourceService {
 
@@ -18,6 +17,16 @@ class ReportResourceService {
   private final GetReports getReports;
   private final PutReport putReport;
   private final ResourceReportMapper resourceReportMapper;
+
+  public ReportResourceService(@Qualifier("deleteReports") DeleteReports deleteReports,
+      GetReports getReports,
+      PutReport putReport,
+      ResourceReportMapper resourceReportMapper) {
+    this.deleteReports = deleteReports;
+    this.getReports = getReports;
+    this.putReport = putReport;
+    this.resourceReportMapper = resourceReportMapper;
+  }
 
   Flux<Report> getAll() {
     return getReports.getAll().map(resourceReportMapper::toResourceReport);

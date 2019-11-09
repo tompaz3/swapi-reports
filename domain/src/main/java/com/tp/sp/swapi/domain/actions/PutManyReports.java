@@ -36,7 +36,7 @@ public class PutManyReports {
 
   private Mono<Integer> deleteIfExists(boolean exists, int reportId) {
     return exists
-        ? reportRepository.deleteById(reportId).map(ignore -> reportId)
+        ? reportRepository.deleteById(reportId).thenReturn(reportId)
         : Mono.just(reportId);
   }
 }
