@@ -6,14 +6,12 @@ import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import java.util.List;
 import java.util.stream.Stream;
-import lombok.val;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 class PeoplePlanetsJoin {
 
-  private final List<Person> people;
-  private final List<Planet> planets;
+  private final Mono<reactor.util.function.Tuple2<List<Person>, List<Planet>>> peoplePlanetsEmitter;
 
   /**
    * Publishers need to be fully buffered before any joins.
@@ -22,12 +20,10 @@ class PeoplePlanetsJoin {
    * @param planetsEmitter planets emitter.
    */
   PeoplePlanetsJoin(Flux<Person> peopleEmitter, Flux<Planet> planetsEmitter) {
-    val peoplePlanets = Mono.zip(
+    this.peoplePlanetsEmitter = Mono.zip(
         peopleEmitter.collectList(),
         planetsEmitter.collectList()
-    ).block();
-    this.people = peoplePlanets.getT1();
-    this.planets = peoplePlanets.getT2();
+    );
   }
 
   /**
@@ -38,9 +34,15 @@ class PeoplePlanetsJoin {
    * @return person-planet pairs.
    */
   Flux<Tuple2<Person, Planet>> getPeopleFromPlanets() {
+    return peoplePlanetsEmitter
+        .flatMapMany(t2 -> joinPeoplePlanets(t2.getT1(), t2.getT2()));
+  }
+
+
+  private Flux<Tuple2<Person, Planet>> joinPeoplePlanets(List<Person> people,
+      List<Planet> planets) {
     return Flux.fromStream(
-        people.stream()
-            .flatMap(person -> findPersonsPlanet(person, planets.stream()))
+        people.stream().flatMap(person -> findPersonsPlanet(person, planets.stream()))
     );
   }
 
