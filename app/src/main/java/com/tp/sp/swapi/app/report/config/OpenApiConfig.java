@@ -16,6 +16,7 @@ public class OpenApiConfig {
    * @param docsVersion documentation version.
    * @return base OpenAPI entry.
    */
+  @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
   @Bean
   public OpenAPI openAPI(@Value("${docs.version:1.0}") String docsVersion) {
     return new OpenAPI()

@@ -1,12 +1,13 @@
-package com.tp.sp.swapi.app.report.persistence;
+package com.tp.sp.swapi.app.report.persistence.single;
 
+import com.tp.sp.swapi.app.report.persistence.shared.ReportSharedEntityMapper;
 import com.tp.sp.swapi.domain.model.Report;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class ReportEntityMapper {
 
   private final ReportSharedEntityMapper reportSharedEntityMapper;
@@ -19,14 +20,10 @@ public class ReportEntityMapper {
   ReportEntity toReportEntity(Report report) {
     val reportEntity = new ReportEntity();
     reportEntity.setId(report.getId());
-    reportEntity.setQueryCriteria(
-        new QueryCriteriaEntity(report.getQueryCriteria().getCharacterPhrase(),
-            report.getQueryCriteria().getPlanetName()));
-    reportEntity.setFilm(new FilmEntity(report.getFilm().getId(), report.getFilm().getName()));
-    reportEntity
-        .setPlanet(new PlanetEntity(report.getPlanet().getId(), report.getPlanet().getName()));
-    reportEntity
-        .setPerson(new PersonEntity(report.getPerson().getId(), report.getPerson().getName()));
+    reportEntity.setQueryCriteria(reportSharedEntityMapper.toQueryCriteria(report));
+    reportEntity.setFilm(reportSharedEntityMapper.toFilm(report));
+    reportEntity.setPlanet(reportSharedEntityMapper.toPlanet(report));
+    reportEntity.setPerson(reportSharedEntityMapper.toPerson(report));
     return reportEntity;
   }
 }

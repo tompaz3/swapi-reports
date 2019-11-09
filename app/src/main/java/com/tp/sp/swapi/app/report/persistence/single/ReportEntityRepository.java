@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.persistence;
+package com.tp.sp.swapi.app.report.persistence.single;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.persistence;
+package com.tp.sp.swapi.app.report.persistence.single;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;

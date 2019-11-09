@@ -1,6 +1,6 @@
 package com.tp.sp.swapi.app.report.config;
 
-import com.tp.sp.swapi.app.report.persistence.ReportsJpaRepository;
+import com.tp.sp.swapi.app.report.persistence.single.ReportsJpaRepository;
 import com.tp.sp.swapi.domain.actions.DeleteReports;
 import com.tp.sp.swapi.domain.actions.GetReports;
 import com.tp.sp.swapi.domain.actions.PutReport;

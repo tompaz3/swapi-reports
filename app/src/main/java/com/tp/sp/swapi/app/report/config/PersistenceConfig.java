@@ -1,8 +1,8 @@
 package com.tp.sp.swapi.app.report.config;
 
-import com.tp.sp.swapi.app.report.persistence.ReportEntityMapper;
-import com.tp.sp.swapi.app.report.persistence.ReportEntityRepository;
-import com.tp.sp.swapi.app.report.persistence.ReportsJpaRepository;
+import com.tp.sp.swapi.app.report.persistence.single.ReportEntityMapper;
+import com.tp.sp.swapi.app.report.persistence.single.ReportEntityRepository;
+import com.tp.sp.swapi.app.report.persistence.single.ReportsJpaRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

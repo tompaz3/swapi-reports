@@ -1,8 +1,13 @@
-package com.tp.sp.swapi.app.report.persistence;
+package com.tp.sp.swapi.app.report.persistence.single;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.tp.sp.swapi.app.report.persistence.shared.FilmEntity;
+import com.tp.sp.swapi.app.report.persistence.shared.PersonEntity;
+import com.tp.sp.swapi.app.report.persistence.shared.PlanetEntity;
+import com.tp.sp.swapi.app.report.persistence.shared.QueryCriteriaEntity;
+import com.tp.sp.swapi.app.report.persistence.shared.ReportSharedEntityMapper;
 import com.tp.sp.swapi.domain.model.Film;
 import com.tp.sp.swapi.domain.model.Person;
 import com.tp.sp.swapi.domain.model.Planet;

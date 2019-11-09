@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.persistence;
+package com.tp.sp.swapi.app.report.persistence.single;
 
 import com.tp.sp.swapi.domain.ReportQueryRepository;
 import com.tp.sp.swapi.domain.ReportRepository;

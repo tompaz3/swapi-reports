@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.persistence;
+package com.tp.sp.swapi.app.report.persistence.shared;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

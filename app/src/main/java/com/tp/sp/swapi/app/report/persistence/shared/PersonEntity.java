@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.persistence;
+package com.tp.sp.swapi.app.report.persistence.shared;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Embeddable
-public class FilmEntity {
+public class PersonEntity {
 
-  @Column(name = "film_id")
+  @Column(name = "character_id")
   private Integer id;
 
-  @Column(name = "film_name")
+  @Column(name = "character_name")
   private String name;
 }

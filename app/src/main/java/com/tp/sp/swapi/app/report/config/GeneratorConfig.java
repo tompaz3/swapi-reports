@@ -16,6 +16,7 @@ import com.tp.sp.swapi.swapiclient.SwapiClientsFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @DependsOn("swapiClientsFactory")
@@ -48,5 +49,11 @@ public class GeneratorConfig {
   public GenerateReport<Mono<Report>> singleReportGenerator(
       GenerateReportFactory generateReportFactory) {
     return generateReportFactory.personPlanetFilm();
+  }
+
+  @Bean
+  public GenerateReport<Flux<Report>> multipleReportsGenerator(
+      GenerateReportFactory generateReportFactory) {
+    return generateReportFactory.allPeoplePlanetPairsAllFilms();
   }
 }
