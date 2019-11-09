@@ -1,0 +1,6 @@
+'report_id','query_criteria_character_phrase','query_criteria_planet_name','character_id','character_name','planet_id','planet_name','film_id','film_name'
+1,'sky','tat',1,'Luke Skywalker',1,'Tatooine',2,'The Empire Strikes Back'
+2,'3po','tat',2,'C-3PO',1,'Tatooine',2,'The Empire Strikes Back'
+3,'r2','boo',3,'R2-D2',8,'Naboo',3,'Return of the Jedi'
+4,'dart','tat',4,'Darth Vader',6,'Tatooine',2,'Revenge of the Sith'
+5,'leia','raan',5,'Leia Organa',2,'Alderaan',7,'The Force Awakens'

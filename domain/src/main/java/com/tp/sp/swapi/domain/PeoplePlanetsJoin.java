@@ -5,26 +5,29 @@ import com.tp.sp.swapi.domain.model.Planet;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Stream;
+import lombok.val;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 class PeoplePlanetsJoin {
 
-  private final List<Person> people = new CopyOnWriteArrayList<>();
-  private final List<Planet> planets = new CopyOnWriteArrayList<>();
-  private final Flux<Person> peopleEmitter;
-  private final Flux<Planet> planetsEmitter;
+  private final List<Person> people;
+  private final List<Planet> planets;
 
+  /**
+   * Publishers need to be fully buffered before any joins.
+   *
+   * @param peopleEmitter people emitter.
+   * @param planetsEmitter planets emitter.
+   */
   PeoplePlanetsJoin(Flux<Person> peopleEmitter, Flux<Planet> planetsEmitter) {
-    this.peopleEmitter = peopleEmitter;
-    this.planetsEmitter = planetsEmitter;
-    subscribe();
-  }
-
-  private void subscribe() {
-    peopleEmitter.subscribe(people::add);
-    planetsEmitter.subscribe(planets::add);
+    val peoplePlanets = Mono.zip(
+        peopleEmitter.collectList(),
+        planetsEmitter.collectList()
+    ).block();
+    this.people = peoplePlanets.getT1();
+    this.planets = peoplePlanets.getT2();
   }
 
   /**

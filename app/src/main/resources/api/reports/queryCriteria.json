@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "$id": "queryCriteria",
+  "title": "Query Criteria",
+  "type": "object",
+  "description": "Query Criteria",
+  "required": [
+    "query_criteria_character_phrase",
+    "query_criteria_planet_name"
+  ],
+  "properties": {
+    "query_criteria_character_phrase": {
+      "type": "string",
+      "description": "Query Criteria Character Phrase"
+    },
+    "query_criteria_planet_name": {
+      "type": "string",
+      "description": "Query Criteria Planet Name"
+    }
+  }
+}

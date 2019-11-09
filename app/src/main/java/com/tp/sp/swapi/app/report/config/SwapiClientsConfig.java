@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwapiClientsConfig {
 
-
   @Bean
   public SwapiResponseMapper swapiResponseMapper() {
     return new SwapiResponseMapper(new JsonMapperProvider());

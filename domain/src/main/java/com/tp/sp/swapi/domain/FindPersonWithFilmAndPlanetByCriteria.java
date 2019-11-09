@@ -3,7 +3,6 @@ package com.tp.sp.swapi.domain;
 import com.tp.sp.swapi.domain.model.Person;
 import com.tp.sp.swapi.domain.model.Planet;
 import com.tp.sp.swapi.domain.model.QueryCriteria;
-import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -36,11 +35,5 @@ public class FindPersonWithFilmAndPlanetByCriteria {
 
   private boolean personHasAnyFilm(Person person) {
     return !person.getFilmIds().isEmpty();
-  }
-
-  private Flux<Tuple2<Person, Planet>> emmitIfPersonFromPlanet(Person person,
-      Flux<Planet> planets) {
-    return planets.filter(planet -> planet.getId().equals(person.getHomeWorldId()))
-        .map(planet -> Tuple.of(person, planet));
   }
 }

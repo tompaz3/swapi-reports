@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+  <changeSet author="tom" id="insert-test-data">
+    <loadData tableName="reports"
+      file="reports.csv"
+      relativeToChangelogFile="true"
+      schemaName="public"
+      separator=","
+      quotchar="'">
+      <column name="report_id"/>
+      <column name="query_criteria_character_phrase"/>
+      <column name="query_criteria_planet_name"/>
+      <column name="character_id"/>
+      <column name="character_name"/>
+      <column name="planet_id"/>
+      <column name="planet_name"/>
+      <column name="film_id"/>
+      <column name="film_name"/>
+    </loadData>
+  </changeSet>
+</databaseChangeLog>
