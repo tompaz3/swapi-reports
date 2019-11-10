@@ -6,17 +6,19 @@ import com.tp.sp.swapi.swapi.jsonschema.Planet;
 import com.tp.sp.swapi.swapi.jsonschema.Planets;
 import com.tp.sp.swapi.swapiclient.clients.PlanetsClient;
 import com.tp.sp.swapi.swapiclient.clients.http.PlanetsHttpClient;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.map.LRUMap;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class PlanetsCacheClient implements PlanetsClient {
 
   private volatile String planetsEtag = EMPTY;
-  private final Map<String, List<Planet>> planetsCache = new ConcurrentHashMap<>();
+  private final Map<String, List<Planet>> planetsCache = Collections
+      .synchronizedMap(new LRUMap<>(100));
 
   private final String getPlanetsUri;
   private final PlanetsHttpClient planetsClient;

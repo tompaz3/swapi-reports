@@ -6,17 +6,19 @@ import com.tp.sp.swapi.swapi.jsonschema.People;
 import com.tp.sp.swapi.swapi.jsonschema.Person;
 import com.tp.sp.swapi.swapiclient.clients.PeopleClient;
 import com.tp.sp.swapi.swapiclient.clients.http.PeopleHttpClient;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.map.LRUMap;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class PeopleCacheClient implements PeopleClient {
 
   private volatile String peopleEtag = EMPTY;
-  private final Map<String, List<Person>> peopleCache = new ConcurrentHashMap<>();
+  private final Map<String, List<Person>> peopleCache = Collections
+      .synchronizedMap(new LRUMap<>(100));
 
   private final String getPeopleUri;
   private final PeopleHttpClient peopleClient;

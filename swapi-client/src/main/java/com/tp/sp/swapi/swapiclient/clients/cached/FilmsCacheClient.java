@@ -9,20 +9,21 @@ import com.tp.sp.swapi.swapiclient.clients.FilmsClient;
 import com.tp.sp.swapi.swapiclient.clients.http.FilmsHttpClient;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.apache.commons.collections4.map.LRUMap;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class FilmsCacheClient implements FilmsClient {
 
   private volatile String filmsEtag = EMPTY;
-  private final Map<Integer, Film> filmsCache = new ConcurrentHashMap<>();
+  private final Map<Integer, Film> filmsCache = Collections.synchronizedMap(new LRUMap<>(20));
 
   private final String getPeopleUri;
   private final FilmsHttpClient filmsClient;
