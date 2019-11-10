@@ -3,7 +3,33 @@
 This application exposes REST API to generate reports based on data found using 
 [https://swapi.co](1) REST API.
 
-Application is created using Java language in OpenJDK 11 version.
+Application is created using Java language in OpenJDK 11 version. 
+Target bytecode is expected to run on JDK 11 or higher.
+
+## Foreword
+
+Chosen implementation, especially Project Reactor dependency, isn't the best fit 
+for such application.
+If such application was to be created ever again, a different approach might work out way better.
+
+The `domain` module has too much dependency on Project Reactor publishers and should probably
+have at least some abstraction over publishers (or even some result wrappers) to be truly
+independent from external libraries.
+
+The application may be regarded as a playground, PoC for trying to use some 
+patterns of [Hexagonal Architecture](7) design and Project Reactor.
+
+[https://swapi.co](1) isn't elastic enough and doesn't allow easily to access joined data 
+(e.g. to access all species' details for planets, which name contains letter "i", 
+one has to execute multiple queries).
+
+Project Reactor use for such simple application is a bit of an overkill, since all data
+need to be accessed in a blocking manner, anyway.
+
+Advantages of this application is that it wasn't just another simple CRUD application with 
+Spring Rest Data and helped the author to dive a little bit into areas he hadn't had the opportunity
+to use on a regular basis. 
+
 
 ## How to use
 
@@ -114,4 +140,5 @@ To build web-app, use `build-war` Maven profile.
 [3]: https://projectreactor.io
 [4]: https://projectreactor.io/docs/netty/release/reference/docs/index.html
 [5]: https://www.liquibase.org/
-[6]: RestAssured
+[6]: http://rest-assured.io/
+[7]: https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)
