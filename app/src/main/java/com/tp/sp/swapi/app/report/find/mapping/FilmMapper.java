@@ -1,6 +1,6 @@
 package com.tp.sp.swapi.app.report.find.mapping;
 
-import static com.tp.sp.swapi.app.report.find.mapping.IdFromUrl.toId;
+import static com.tp.sp.swapi.swapiclient.IdFromUrl.toId;
 
 import com.tp.sp.swapi.domain.model.Film;
 

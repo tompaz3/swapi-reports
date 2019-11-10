@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.find.mapping;
+package com.tp.sp.swapi.swapiclient;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 

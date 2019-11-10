@@ -2,7 +2,9 @@ package com.tp.sp.swapi.swapiclient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.tp.sp.swapi.swapi.jsonschema.Film;
 import com.tp.sp.swapi.swapiclient.page.FindAllPages;
+import java.util.List;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,14 +28,18 @@ class FilmsClientTest {
       + "then: films found")
   @Test
   void givenUriWhenFindAllThenFilmsFound() {
-    // given films client
+    // given expected film ids
+    val ids = List.of(1, 2, 3);
     // when find
-    val response = client.findAll();
+    val response = client.findAllByIds(ids);
     val films = response.block();
 
     // then response mapped and returned
     assertThat(films).isNotNull();
     // and results are not empty
     assertThat(films.getResults()).isNotEmpty();
+    // and results contain only film with expecetd ids
+    assertThat(films.getResults().stream().map(Film::getUrl)
+        .map(IdFromUrl::toId).allMatch(ids::contains)).isTrue();
   }
 }

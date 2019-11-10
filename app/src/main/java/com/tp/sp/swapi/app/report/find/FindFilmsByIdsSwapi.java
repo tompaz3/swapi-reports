@@ -17,7 +17,7 @@ public class FindFilmsByIdsSwapi implements FindFilmsByIds {
 
   @Override
   public Flux<Film> findAllByIds(Collection<Integer> ids) {
-    return Flux.from(filmsClient.findAll())
+    return Flux.from(filmsClient.findAllByIds(ids))
         .map(Films::getResults)
         .flatMap(r -> Flux.fromStream(r.stream()))
         .map(filmMapper::toFilm);

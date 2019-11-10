@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.val;
 
-final class TestPropertiesHolder {
+public final class TestPropertiesHolder {
 
   private static final String TEST_PROPERTIES_FILE = "swapi-client-test.properties";
   @SuppressWarnings("checkstyle:LineLength")
@@ -59,7 +59,7 @@ final class TestPropertiesHolder {
     return e.getValue().apply(builder, properties.getProperty(e.getKey()));
   }
 
-  static TestPropertiesHolder instance() {
+  public static TestPropertiesHolder instance() {
     return INSTANCE;
   }
 }

@@ -1,8 +1,9 @@
 package com.tp.sp.swapi.app.report.find.mapping;
 
-import static com.tp.sp.swapi.app.report.find.mapping.IdFromUrl.toId;
+import static com.tp.sp.swapi.swapiclient.IdFromUrl.toId;
 
 import com.tp.sp.swapi.domain.model.Person;
+import com.tp.sp.swapi.swapiclient.IdFromUrl;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;

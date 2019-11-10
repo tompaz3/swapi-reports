@@ -3,7 +3,7 @@ package com.tp.sp.swapi.swapiclient;
 import io.vavr.Lazy;
 import lombok.val;
 
-final class TestSwapiGetMethodClientProvider {
+public final class TestSwapiGetMethodClientProvider {
 
   private static final TestSwapiGetMethodClientProvider INSTANCE
       = new TestSwapiGetMethodClientProvider();
@@ -14,12 +14,8 @@ final class TestSwapiGetMethodClientProvider {
     this.provider = Lazy.of(this::create);
   }
 
-  SwapiGetMethodClient provide() {
+  public SwapiGetMethodClient provide() {
     return provider.get();
-  }
-
-  static TestSwapiGetMethodClientProvider instance() {
-    return INSTANCE;
   }
 
   private SwapiGetMethodClient create() {
@@ -27,5 +23,9 @@ final class TestSwapiGetMethodClientProvider {
     val swapiResponseMapper = new SwapiResponseMapper(new JsonMapperProvider());
     return new SwapiGetMethodClient(swapiClientProperties.getBaseUrl(),
         swapiResponseMapper);
+  }
+
+  public static TestSwapiGetMethodClientProvider instance() {
+    return INSTANCE;
   }
 }

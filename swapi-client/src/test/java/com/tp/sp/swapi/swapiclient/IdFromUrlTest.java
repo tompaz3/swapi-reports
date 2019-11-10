@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.app.report.find.mapping;
+package com.tp.sp.swapi.swapiclient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
