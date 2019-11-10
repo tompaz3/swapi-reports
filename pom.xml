@@ -22,7 +22,6 @@
     <module>app</module>
     <module>domain</module>
     <module>web-app</module>
-    <module>standalone-app</module>
   </modules>
 
   <properties>
