@@ -102,23 +102,11 @@ To run integration tests, please use `integration-tests` maven profile, e.g.
 ```
 
 ### web-app
-This module is used for WAR application packaging.
+This module is used for WAR application packaging - creates executable WAR.
 It only imports the **app** module and creates base application entry point, 
 which is Spring Boot Application.
 
-Embedded Tomcat is excluded in this module, so the application was prepared to run 
-in servlet environment.
-
 To build web-app, use `build-war` Maven profile.
-
-### standalone-app
-This module is used for JAR application packaging.
-It only imports the **app** module and creates base application entry point,
-which is Spring Boot Application.
-
-Application runs by default on Embedded Tomcat with default Tomcat's parameters.
-
-To build standalone-app, use `build-jar` Maven profile.
 
 
 [1]: https://swapi.co
