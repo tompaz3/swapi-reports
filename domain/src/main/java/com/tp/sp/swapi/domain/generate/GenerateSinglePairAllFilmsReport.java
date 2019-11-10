@@ -1,15 +1,15 @@
 package com.tp.sp.swapi.domain.generate;
 
-import com.tp.sp.swapi.domain.FindAllFilms;
-import com.tp.sp.swapi.domain.FindPersonWithFilmAndPlanetByCriteria;
 import com.tp.sp.swapi.domain.model.Film;
 import com.tp.sp.swapi.domain.model.Person;
 import com.tp.sp.swapi.domain.model.Planet;
 import com.tp.sp.swapi.domain.model.QueryCriteria;
 import com.tp.sp.swapi.domain.model.Report;
-import io.vavr.Tuple;
-import io.vavr.Tuple2;
+import com.tp.sp.swapi.domain.port.FindFilmsByIds;
+import com.tp.sp.swapi.domain.port.FindPersonWithFilmAndPlanetByCriteria;
+import com.tp.sp.swapi.domain.port.PersonPlanet;
 import io.vavr.Tuple3;
+import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
@@ -17,7 +17,7 @@ import reactor.core.publisher.Flux;
 public class GenerateSinglePairAllFilmsReport implements GenerateReport<Flux<Report>> {
 
   private final FindPersonWithFilmAndPlanetByCriteria findPersonWithFilmAndPlanetByCriteria;
-  private final FindAllFilms findAllFilms;
+  private final FindFilmsByIds findFilmsByIds;
   private final GenerateReportFromTupleMapper generateReportFromTupleMapper;
 
   /**
@@ -47,9 +47,10 @@ public class GenerateSinglePairAllFilmsReport implements GenerateReport<Flux<Rep
         .map(t3 -> generateReportFromTupleMapper.toReport(reportId, queryCriteria, t3));
   }
 
-  private Flux<Tuple3<Person, Planet, Film>> findFilms(Tuple2<Person, Planet> personPlanet) {
-    return findAllFilms.findAll()
-        .filter(film -> personPlanet._1().getFilmIds().contains(film.getId()))
-        .map(film -> Tuple.of(personPlanet._1(), personPlanet._2(), film));
+  private Flux<Tuple3<Person, Planet, Film>> findFilms(PersonPlanet personPlanet) {
+    return findFilmsByIds.findAllByIds(personPlanet.getFilmIds())
+        .map(personPlanet::joinFilmAndRemove)
+        .filter(Option::isDefined)
+        .map(Option::get);
   }
 }

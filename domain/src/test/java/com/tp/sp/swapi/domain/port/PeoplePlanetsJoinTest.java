@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.domain;
+package com.tp.sp.swapi.domain.port;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,6 +41,6 @@ class PeoplePlanetsJoinTest {
     val peoplePlanets = peopleFromPlanets.collectList().block();
 
     // then 4 pairs found
-    assertThat(peoplePlanets.size()).isEqualTo(4);
+    assertThat(peoplePlanets).hasSize(4);
   }
 }

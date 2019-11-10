@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.domain;
+package com.tp.sp.swapi.domain.port;
 
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.tp.sp.swapi.domain.model.Person;
 import com.tp.sp.swapi.domain.model.Planet;
 import com.tp.sp.swapi.domain.model.QueryCriteria;
-import io.vavr.Tuple2;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,15 +41,16 @@ class FindPersonWithFilmAndPlanetByCriteriaTest {
 
     // then all records planets have id 1
     assertThat(
-        personPlanets.stream().map(Tuple2::_2).map(Planet::getId).distinct().reduce((a, b) -> {
-          throw new RuntimeException("Different planet ids");
-        }).get()).isEqualTo(1);
+        personPlanets.stream().map(PersonPlanet::getPlanet).map(Planet::getId).distinct()
+            .reduce((a, b) -> {
+              throw new RuntimeException("Different planet ids");
+            }).get()).isEqualTo(1);
     // and person name contains character phrase
-    assertThat(personPlanets.stream().map(Tuple2::_1).map(Person::getName)
+    assertThat(personPlanets.stream().map(PersonPlanet::getPerson).map(Person::getName)
         .allMatch(n -> containsIgnoreCase(n, FindPeopleByNameStub.SKYWALKER_NAME)))
         .isTrue();
     // and 3 different people found
-    assertThat(personPlanets.stream().map(Tuple2::_1).distinct().count()).isEqualTo(3);
+    assertThat(personPlanets.stream().map(PersonPlanet::getPerson).distinct().count()).isEqualTo(3);
   }
 
   @DisplayName("given: people whose home world is 1 "
@@ -71,9 +71,10 @@ class FindPersonWithFilmAndPlanetByCriteriaTest {
     val personPlanet = result.next().block();
 
     // then planet has id 1
-    assertThat(personPlanet._2().getId()).isEqualTo(1);
+    assertThat(personPlanet.getPlanet().getId()).isEqualTo(1);
     // and person name contains character phrase
-    assertThat(containsIgnoreCase(personPlanet._1().getName(), FindPeopleByNameStub.SKYWALKER_NAME))
+    assertThat(
+        containsIgnoreCase(personPlanet.getPerson().getName(), FindPeopleByNameStub.SKYWALKER_NAME))
         .isTrue();
   }
 

@@ -1,23 +1,28 @@
 package com.tp.sp.swapi.domain.generate;
 
-import com.tp.sp.swapi.domain.FindAllFilms;
-import com.tp.sp.swapi.domain.FindPersonWithFilmAndPlanetByCriteria;
 import com.tp.sp.swapi.domain.model.Film;
 import com.tp.sp.swapi.domain.model.Person;
 import com.tp.sp.swapi.domain.model.Planet;
 import com.tp.sp.swapi.domain.model.QueryCriteria;
 import com.tp.sp.swapi.domain.model.Report;
-import io.vavr.Tuple;
-import io.vavr.Tuple2;
+import com.tp.sp.swapi.domain.port.FindFilmsByIds;
+import com.tp.sp.swapi.domain.port.FindPersonWithFilmAndPlanetByCriteria;
+import com.tp.sp.swapi.domain.port.PersonPlanet;
 import io.vavr.Tuple3;
+import io.vavr.control.Option;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import reactor.core.publisher.Flux;
 
 @RequiredArgsConstructor
 public class GenerateAllPersonPlanetPairFilmsReport implements GenerateReport<Flux<Report>> {
 
   private final FindPersonWithFilmAndPlanetByCriteria findPersonWithFilmAndPlanetByCriteria;
-  private final FindAllFilms findAllFilms;
+  private final FindFilmsByIds findFilmsByIds;
   private final GenerateReportFromTupleMapper generateReportFromTupleMapper;
 
   /**
@@ -42,13 +47,31 @@ public class GenerateAllPersonPlanetPairFilmsReport implements GenerateReport<Fl
   @Override
   public Flux<Report> generateReport(int reportId, QueryCriteria queryCriteria) {
     return findPersonWithFilmAndPlanetByCriteria.findByCriteria(queryCriteria)
-        .flatMap(this::findFilms)
+        .collectList()
+        .flatMapMany(this::findFilms)
         .map(t3 -> generateReportFromTupleMapper.toReport(reportId, queryCriteria, t3));
   }
 
-  private Flux<Tuple3<Person, Planet, Film>> findFilms(Tuple2<Person, Planet> personPlanet) {
-    return findAllFilms.findAll()
-        .filter(film -> personPlanet._1().getFilmIds().contains(film.getId()))
-        .map(film -> Tuple.of(personPlanet._1(), personPlanet._2(), film));
+  private Flux<Tuple3<Person, Planet, Film>> findFilms(List<PersonPlanet> peoplePlanets) {
+    val filmIds = filmIdsFromPeoplePlanets(peoplePlanets);
+    return findFilmsByIds.findAllByIds(filmIds)
+        .flatMap(f -> assignFilm(peoplePlanets, f));
+  }
+
+  private Flux<Tuple3<Person, Planet, Film>> assignFilm(List<PersonPlanet> peoplePlanets,
+      Film film) {
+    return Flux.fromStream(
+        peoplePlanets.stream()
+            .map(p -> p.joinFilmAndRemove(film))
+            .filter(Option::isDefined)
+            .map(Option::get)
+    );
+  }
+
+  private Set<Integer> filmIdsFromPeoplePlanets(List<PersonPlanet> peoplePlanets) {
+    return peoplePlanets.stream()
+        .map(PersonPlanet::getFilmIds)
+        .flatMap(Collection::stream)
+        .collect(Collectors.toSet());
   }
 }

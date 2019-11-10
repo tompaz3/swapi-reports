@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.domain;
+package com.tp.sp.swapi.domain.port;
 
 import com.tp.sp.swapi.domain.model.Person;
 import reactor.core.publisher.Flux;

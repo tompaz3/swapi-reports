@@ -1,9 +1,7 @@
-package com.tp.sp.swapi.domain;
+package com.tp.sp.swapi.domain.port;
 
 import com.tp.sp.swapi.domain.model.Person;
-import com.tp.sp.swapi.domain.model.Planet;
 import com.tp.sp.swapi.domain.model.QueryCriteria;
-import io.vavr.Tuple2;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import reactor.core.publisher.Flux;
@@ -22,7 +20,7 @@ public class FindPersonWithFilmAndPlanetByCriteria {
    * @param queryCriteria query criteria.
    * @return matching person-planet pairs or empty.
    */
-  public Flux<Tuple2<Person, Planet>> findByCriteria(QueryCriteria queryCriteria) {
+  public Flux<PersonPlanet> findByCriteria(QueryCriteria queryCriteria) {
     if (queryCriteria.isEmpty()) {
       return Flux.error(QueryCriteriaEmptyException::new);
     }
@@ -30,7 +28,8 @@ public class FindPersonWithFilmAndPlanetByCriteria {
         .filter(this::personHasAnyFilm);
     val planets = findPlanetsByName.findByName(queryCriteria.getPlanetName());
     val peoplePlanetsJoin = new PeoplePlanetsJoin(people, planets);
-    return peoplePlanetsJoin.getPeopleFromPlanets();
+    return peoplePlanetsJoin.getPeopleFromPlanets()
+        .map(PersonPlanet::fromPersonPlanet);
   }
 
   private boolean personHasAnyFilm(Person person) {

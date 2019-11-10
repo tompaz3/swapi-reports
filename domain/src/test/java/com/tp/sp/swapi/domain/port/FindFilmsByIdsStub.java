@@ -1,10 +1,11 @@
-package com.tp.sp.swapi.domain;
+package com.tp.sp.swapi.domain.port;
 
 import com.tp.sp.swapi.domain.model.Film;
+import java.util.Collection;
 import java.util.List;
 import reactor.core.publisher.Flux;
 
-public class FindAllFilmsStub implements FindAllFilms {
+public class FindFilmsByIdsStub implements FindFilmsByIds {
 
   private static final List<Film> FILMS = List.of(
       Film.of(1, "A New Hope"),
@@ -17,7 +18,9 @@ public class FindAllFilmsStub implements FindAllFilms {
   );
 
   @Override
-  public Flux<Film> findAll() {
-    return Flux.fromStream(FILMS.stream());
+  public Flux<Film> findAllByIds(Collection<Integer> ids) {
+    return Flux.fromStream(FILMS.stream())
+        .filter(f -> ids.contains(f.getId()));
   }
+
 }

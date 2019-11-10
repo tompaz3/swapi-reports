@@ -1,4 +1,4 @@
-package com.tp.sp.swapi.domain;
+package com.tp.sp.swapi.domain.port;
 
 public class QueryCriteriaEmptyException extends RuntimeException {
 

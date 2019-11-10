@@ -1,8 +1,8 @@
 package com.tp.sp.swapi.app.report.find;
 
 import com.tp.sp.swapi.app.report.find.mapping.PersonMapper;
-import com.tp.sp.swapi.domain.FindPeopleByName;
 import com.tp.sp.swapi.domain.model.Person;
+import com.tp.sp.swapi.domain.port.FindPeopleByName;
 import com.tp.sp.swapi.swapi.jsonschema.People;
 import com.tp.sp.swapi.swapiclient.PeopleClient;
 import lombok.RequiredArgsConstructor;

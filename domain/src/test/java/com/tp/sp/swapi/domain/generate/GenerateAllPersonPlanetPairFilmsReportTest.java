@@ -3,13 +3,13 @@ package com.tp.sp.swapi.domain.generate;
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tp.sp.swapi.domain.FindAllFilmsStub;
-import com.tp.sp.swapi.domain.FindPeopleByNameStub;
-import com.tp.sp.swapi.domain.FindPersonWithFilmAndPlanetByCriteria;
-import com.tp.sp.swapi.domain.FindPlanetsByNameStub;
 import com.tp.sp.swapi.domain.model.Person;
 import com.tp.sp.swapi.domain.model.QueryCriteria;
 import com.tp.sp.swapi.domain.model.Report;
+import com.tp.sp.swapi.domain.port.FindFilmsByIdsStub;
+import com.tp.sp.swapi.domain.port.FindPeopleByNameStub;
+import com.tp.sp.swapi.domain.port.FindPersonWithFilmAndPlanetByCriteria;
+import com.tp.sp.swapi.domain.port.FindPlanetsByNameStub;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,7 +29,8 @@ class GenerateAllPersonPlanetPairFilmsReportTest {
         new FindPeopleByNameStub(),
         new FindPlanetsByNameStub());
     generateAllPersonPlanetPairFilmsReport = new GenerateAllPersonPlanetPairFilmsReport(
-        findPersonAndPlanetByCriteria, new FindAllFilmsStub(), new GenerateReportFromTupleMapper());
+        findPersonAndPlanetByCriteria, new FindFilmsByIdsStub(),
+        new GenerateReportFromTupleMapper());
   }
 
   @DisplayName("given: criteria for returning planet and person with films, "
