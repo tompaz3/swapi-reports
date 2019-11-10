@@ -17,16 +17,6 @@
       <groupId>com.tp.sp.swapi</groupId>
       <artifactId>app</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-tomcat</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
 
   <profiles>
@@ -38,6 +28,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <configuration>
+              <mainClass>com.tp.sp.swapi.WebApplication</mainClass>
+              <layout>WAR</layout>
               <finalName>swapi-web-${project.version}</finalName>
             </configuration>
           </plugin>
