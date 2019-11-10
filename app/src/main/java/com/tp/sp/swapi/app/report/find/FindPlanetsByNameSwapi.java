@@ -4,7 +4,7 @@ import com.tp.sp.swapi.app.report.find.mapping.PlanetMapper;
 import com.tp.sp.swapi.domain.model.Planet;
 import com.tp.sp.swapi.domain.port.FindPlanetsByName;
 import com.tp.sp.swapi.swapi.jsonschema.Planets;
-import com.tp.sp.swapi.swapiclient.PlanetsClient;
+import com.tp.sp.swapi.swapiclient.clients.PlanetsClient;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 

@@ -1,8 +1,11 @@
-package com.tp.sp.swapi.swapiclient;
+package com.tp.sp.swapi.swapiclient.clients.http;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tp.sp.swapi.swapi.jsonschema.Planet;
+import com.tp.sp.swapi.swapi.jsonschema.Person;
+import com.tp.sp.swapi.swapiclient.SwapiClientTestTags;
+import com.tp.sp.swapi.swapiclient.TestPropertiesHolder;
+import com.tp.sp.swapi.swapiclient.TestSwapiGetMethodClientProvider;
 import com.tp.sp.swapi.swapiclient.page.FindAllPages;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,51 +16,51 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @Tag(SwapiClientTestTags.SWAPI_CLIENT_INTEGRATION_TEST)
-class PlanetsClientTest {
+class PeopleHttpClientTest {
 
-  private PlanetsClient client;
+  private PeopleHttpClient client;
 
   @BeforeEach
   void setUp() {
-    val planetsUri = TestPropertiesHolder.instance().getSwapiClientProperties().getPlanetsUri();
+    val peopleUri = TestPropertiesHolder.instance().getSwapiClientProperties().getPeopleUri();
     val getMethodClient = TestSwapiGetMethodClientProvider.instance().provide();
-    client = new PlanetsClient(new FindAllPages<>(getMethodClient), getMethodClient, planetsUri);
+    client = new PeopleHttpClient(new FindAllPages<>(getMethodClient), getMethodClient, peopleUri);
   }
 
-  @DisplayName("given: valid planets name as query param, "
+  @DisplayName("given: valid people name as query param, "
       + "when: find, "
-      + "then: planets having such name found")
+      + "then: people having such name found")
   @Test
   void givenValidNameWhenFindThenFound() {
     // given valid name
-    val name = "Tatooine";
+    val name = "skywalker";
     // when find by name
     val response = client.findByName(name);
-    val planets = response.block();
+    val people = response.block();
 
     // then response mapped and returned
-    assertThat(planets).isNotNull();
+    assertThat(people).isNotNull();
     // and results are not empty
-    assertThat(planets.getResults()).isNotEmpty();
+    assertThat(people.getResults()).isNotEmpty();
 
     // and all results contain name equal to given param
     val pattern = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
-    assertThat(planets.getResults().stream().map(Planet::getName).map(pattern::matcher)
+    assertThat(people.getResults().stream().map(Person::getName).map(pattern::matcher)
         .allMatch(Matcher::find)).isTrue()
-        .as("Results contain only planets with name containing {}", name);
+        .as("Results contain only people with name containing {}", name);
   }
 
   @Test
   void givenInvalidNameWhenFindThenNotFound() {
     // given invalid name
-    val name = "AW DIUWu q298UdQ(*DU89Q#22rQWr2@";
+    val name = "wie8w93ue8mw9uWRu#22rQWr2@";
     // when find by name
     val response = client.findByName(name);
-    val planets = response.block();
+    val people = response.block();
 
     // then response mapped and returned
-    assertThat(planets).isNotNull();
+    assertThat(people).isNotNull();
     // and results are empty
-    assertThat(planets.getResults()).isEmpty();
+    assertThat(people.getResults()).isEmpty();
   }
 }

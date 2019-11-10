@@ -2,18 +2,15 @@ package com.tp.sp.swapi.swapiclient;
 
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
+@RequiredArgsConstructor
 public class SwapiGetMethodClient {
 
   private final HttpClient httpClient;
   private final SwapiResponseMapper responseMapper;
-
-  SwapiGetMethodClient(HttpClient httpClient, SwapiResponseMapper responseMapper) {
-    this.httpClient = httpClient;
-    this.responseMapper = responseMapper;
-  }
 
   /**
    * Executes HTTP GET method in a reactive manner, mapping response to given {@code responseType}.

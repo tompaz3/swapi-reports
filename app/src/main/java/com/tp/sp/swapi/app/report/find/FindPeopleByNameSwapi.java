@@ -4,7 +4,7 @@ import com.tp.sp.swapi.app.report.find.mapping.PersonMapper;
 import com.tp.sp.swapi.domain.model.Person;
 import com.tp.sp.swapi.domain.port.FindPeopleByName;
 import com.tp.sp.swapi.swapi.jsonschema.People;
-import com.tp.sp.swapi.swapiclient.PeopleClient;
+import com.tp.sp.swapi.swapiclient.clients.PeopleClient;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 

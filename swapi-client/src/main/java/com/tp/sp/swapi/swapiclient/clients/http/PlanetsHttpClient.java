@@ -1,6 +1,9 @@
-package com.tp.sp.swapi.swapiclient;
+package com.tp.sp.swapi.swapiclient.clients.http;
 
 import com.tp.sp.swapi.swapi.jsonschema.Planets;
+import com.tp.sp.swapi.swapiclient.SwapiGetMethodClient;
+import com.tp.sp.swapi.swapiclient.SwapiUriBuilder;
+import com.tp.sp.swapi.swapiclient.clients.PlanetsClient;
 import com.tp.sp.swapi.swapiclient.page.FindAllPages;
 import com.tp.sp.swapi.swapiclient.page.PlanetsPageable;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +11,7 @@ import lombok.val;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class PlanetsClient {
+public class PlanetsHttpClient implements PlanetsClient {
 
   private static final String SEARCH_BY_NAME_QUERY_PARAM = "search";
 
@@ -22,6 +25,7 @@ public class PlanetsClient {
    * @param name name.
    * @return planets found.
    */
+  @Override
   public Mono<Planets> findByName(String name) {
     val uri = SwapiUriBuilder.of(getPlanetsUri)
         .queryParam(SEARCH_BY_NAME_QUERY_PARAM, name)

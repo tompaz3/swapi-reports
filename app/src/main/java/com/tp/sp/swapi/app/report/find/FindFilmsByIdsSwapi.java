@@ -4,7 +4,7 @@ import com.tp.sp.swapi.app.report.find.mapping.FilmMapper;
 import com.tp.sp.swapi.domain.model.Film;
 import com.tp.sp.swapi.domain.port.FindFilmsByIds;
 import com.tp.sp.swapi.swapi.jsonschema.Films;
-import com.tp.sp.swapi.swapiclient.FilmsClient;
+import com.tp.sp.swapi.swapiclient.clients.FilmsClient;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
