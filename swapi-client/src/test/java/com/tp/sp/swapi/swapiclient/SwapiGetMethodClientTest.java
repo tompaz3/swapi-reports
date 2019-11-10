@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import reactor.netty.http.client.HttpClient;
 
 @Tag(SwapiClientTestTags.SWAPI_CLIENT_INTEGRATION_TEST)
 class SwapiGetMethodClientTest {
@@ -24,7 +25,8 @@ class SwapiGetMethodClientTest {
   void setUp() {
     swapiClientProperties = TestPropertiesHolder.instance().getSwapiClientProperties();
     val swapiResponseMapper = new SwapiResponseMapper(new JsonMapperProvider());
-    client = new SwapiGetMethodClient(swapiClientProperties.getBaseUrl(),
+    client = new SwapiGetMethodClient(
+        HttpClient.create().baseUrl(swapiClientProperties.getBaseUrl()),
         swapiResponseMapper);
   }
 

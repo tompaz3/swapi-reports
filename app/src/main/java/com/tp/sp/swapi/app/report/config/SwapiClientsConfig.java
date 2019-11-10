@@ -1,6 +1,7 @@
 package com.tp.sp.swapi.app.report.config;
 
 import com.tp.sp.swapi.app.report.properties.SwapiProperties;
+import com.tp.sp.swapi.app.report.swapi.SwapiHttpClientFactory;
 import com.tp.sp.swapi.swapiclient.JsonMapperProvider;
 import com.tp.sp.swapi.swapiclient.SwapiClientsFactory;
 import com.tp.sp.swapi.swapiclient.SwapiResponseMapper;
@@ -16,8 +17,10 @@ public class SwapiClientsConfig {
   }
 
   @Bean
-  public SwapiClientsFactory swapiClientsFactory(SwapiProperties swapiProperties,
+  public SwapiClientsFactory swapiClientsFactory(SwapiHttpClientFactory swapiHttpClientFactory,
+      SwapiProperties swapiProperties,
       SwapiResponseMapper swapiResponseMapper) {
-    return new SwapiClientsFactory(swapiProperties.getClient().get(), swapiResponseMapper);
+    return new SwapiClientsFactory(swapiHttpClientFactory, swapiProperties.getClient().get(),
+        swapiResponseMapper);
   }
 }

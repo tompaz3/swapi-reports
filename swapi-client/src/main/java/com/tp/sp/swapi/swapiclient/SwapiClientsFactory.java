@@ -14,13 +14,16 @@ public class SwapiClientsFactory {
    * <p>Creates {@link SwapiGetMethodClient} used by specific clients implementations to handle
    * HTTP GET requests.
    *
+   * @param httpClientFactory factory creating {@link reactor.netty.http.client.HttpClient}
+   * instance.
    * @param swapiClientProperties swapi client properties.
    * @param responseMapper response mapper.
    */
-  public SwapiClientsFactory(SwapiClientProperties swapiClientProperties,
+  public SwapiClientsFactory(HttpClientFactory httpClientFactory,
+      SwapiClientProperties swapiClientProperties,
       SwapiResponseMapper responseMapper) {
     this.swapiClientProperties = swapiClientProperties;
-    this.getMethodClient = new SwapiGetMethodClient(swapiClientProperties.getBaseUrl(),
+    this.getMethodClient = new SwapiGetMethodClient(httpClientFactory.create(),
         responseMapper);
   }
 

@@ -10,8 +10,8 @@ public class SwapiGetMethodClient {
   private final HttpClient httpClient;
   private final SwapiResponseMapper responseMapper;
 
-  SwapiGetMethodClient(String baseUrl, SwapiResponseMapper responseMapper) {
-    this.httpClient = HttpClient.create().baseUrl(baseUrl);
+  SwapiGetMethodClient(HttpClient httpClient, SwapiResponseMapper responseMapper) {
+    this.httpClient = httpClient;
     this.responseMapper = responseMapper;
   }
 

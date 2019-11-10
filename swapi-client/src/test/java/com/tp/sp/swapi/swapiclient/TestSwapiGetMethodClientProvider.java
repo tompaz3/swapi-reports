@@ -2,6 +2,7 @@ package com.tp.sp.swapi.swapiclient;
 
 import io.vavr.Lazy;
 import lombok.val;
+import reactor.netty.http.client.HttpClient;
 
 public final class TestSwapiGetMethodClientProvider {
 
@@ -21,7 +22,7 @@ public final class TestSwapiGetMethodClientProvider {
   private SwapiGetMethodClient create() {
     val swapiClientProperties = TestPropertiesHolder.instance().getSwapiClientProperties();
     val swapiResponseMapper = new SwapiResponseMapper(new JsonMapperProvider());
-    return new SwapiGetMethodClient(swapiClientProperties.getBaseUrl(),
+    return new SwapiGetMethodClient(HttpClient.create().baseUrl(swapiClientProperties.getBaseUrl()),
         swapiResponseMapper);
   }
 
