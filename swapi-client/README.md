@@ -14,30 +14,41 @@ Project exposes 3 main clients for [https://swapi.co](1) resources.
 ### FilmsClient
 
 Client retrieves data from [https://swapi.co/api/films/](https://swapi.co/api/films/) resource.
-`FilmsClient` has only one method.
-
-`Mono<Films> findAll()` returns all films from the films resource.
-Executes GET call directly to [https://swapi.co/api/films/](https://swapi.co/api/films/) URI.
 
 ### PeopleClient
 
-Client retrieves data from [https://swapi.co/api/people/](https://swapi.co/api/people/) resource.
-`PeopleClient` has only one method.
-
-`Mono<People> findByName(String name)` returns all people whose
-name match the given name query phrase. 
-Executes GET call to the following URI: 
-[https://swapi.co/api/people/?search=name](https://swapi.co/api/people/?search=name) 
+Client retrieves data from [https://swapi.co/api/people/](https://swapi.co/api/people/) resource. 
 
 ### PlanetsClient
 
 Client retrieves data from [https://swapi.co/api/planets/](https://swapi.co/api/planets/) resource.
-`PlanetsClient` has only one method.
 
-`Mono<Planets> findByName(String name)` returns all people whose
-name match the given name query phrase. \
-Executes GET call to the following URI: 
-[https://swapi.co/api/planets/?search=name](https://swapi.co/api/planets/?search=name)
+---
+
+All the above clients have some simple caching mechanism implemented, 
+based on Etag returned by [https://swapi.co](1). Cached values are stored in `LRUMap` from
+`org.apache.commons:commons-collections4` library.
+
+Cache could be more intelligent, or be even updated by some scheduled job, but for the time being,
+getting results works as follows:
+1. check Etag for given resource
+1. if Etag is the same as the last stored
+    1. for People and Planets - filter cache by given search phrase
+        1. appeared before - brilliant, simply retrieve from the cache map
+        1. not stored - fetch from [https://swapi.co](1) API, update cache and return 
+        (those 2 steps could've been done asynchronously for better performance)
+    1. for  Films - filter cache by given ids
+        1. if all ids appeared before - return films from the cache map
+        1. a few ids haven't appeared before - get missing id films and update cache map 
+        (those 2 steps could've been done asynchronously for better performance)
+        Some performance test could've been done to determine what's better - fetching 2-3 films 
+        by their individual ids or fetching page by page and trying
+        to find the appropriate ones. Since there are only 7 movies returned by [https://swapi.co](1)
+        as of this day, all films are retrieved regardless of number of missing ids.
+        1. all ids missing in cache - fetch films and update cache map 
+        (those 2 steps could've been done asynchronously, as well)
+1. return values found from cache
+        
 
 ## Responses
 
