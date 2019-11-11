@@ -3,8 +3,7 @@
 This application exposes REST API to generate reports based on data found using 
 [https://swapi.co](1) REST API.
 
-Application is created using Java language in OpenJDK 11 version. 
-Target bytecode is expected to run on JDK 11 or higher.
+Application is created using Java language in OpenJDK 11 version.
 
 ## Foreword
 
@@ -27,8 +26,8 @@ Project Reactor use for such simple application is a bit of an overkill, since a
 need to be accessed in a blocking manner, anyway.
 
 Advantages of this application is that it wasn't just another simple CRUD application with 
-Spring Rest Data and helped the author to dive a little bit into areas he hadn't had the opportunity
-to use on a regular basis. 
+Spring Web MVC and was the opportunity to try out some frameworks and design solutions
+the author doesn't use on a regular basis. 
 
 
 ## How to use
@@ -134,6 +133,43 @@ which is Spring Boot Application.
 
 To build web-app, use `build-war` Maven profile.
 
+## Project dependencies
+
+Project uses the following dependencies:
+
+* [Spring Boot Starter Web](8) - auto configurations for Spring Web Application
+* [Spring Boot Starter Data Jpa](9) - auto configurations for Spring Data JPA
+    * [Hibernate](10)
+    * [Liquibase](5)
+* [Spring Boot Starter Test](11) - auto configurations for Spring Applications testing
+* [SpringDoc OpenAPI UI](12) - library and auto configuration for Spring Web, adding `/swagger-ui.html`
+endpoint and helping document REST APIs using OpenAPI 3.0 standard
+* [Lombok](13) - auto generation of Java bolierplate code (such as getters, setters, builders)
+* [Project Reactor](3) - Java reactive library, including Reactive Netty
+* [FasterXML Jackson](14) - Java library for JSON manipulation
+* [Vavr.io](15) - java library porting some functional paradigm design to Java 
+(e.g. Option, Try, Either monads or immutable collections)
+* [Apache Commons-Lang3](16) - library containing common utility classes (e.g. `StringUtils`)
+* [Apache Commons-Collections4](17) - library containing common collection utilities 
+(here, used for `LRUMap` implementation).
+* [H2](18) - in memory Java database (used by default)
+* [Postgresql](19) - JDBC for PostgreSQL (not used by default, requires using `postgres` Spring profile)
+* [JUnit Jupiter](20) - Java library for implementing and running tests
+* [AssertJ](21) - library for fluent assertions (used in tests)
+* [Rest Assured](6) - library for fluent REST APIs tests
+
+Project uses the following maven plugins:
+* Maven Compiler Plugin - for Java code compilation, 
+(includes Lombok Annotation Processor configured)
+* Maven Surefire Plugin - for running tests during maven application build lifecycle
+* Maven Checkstyle Plugin - for running Checkstyle verifications during 
+maven application build lifecycle
+* JsonSchema2Pojo - plugin for generating Java sources based on JsonSchema JSON files.
+* Spring Boot Maven Plugin - for building executable JAR/WAR file of the entire application.
+* Maven Antrun Plugin - just to copy the output JAR/WAR file to the main project location.
+
+
+
 
 [1]: https://swapi.co
 [2]: https://github.com/takari/maven-wrapper
@@ -142,3 +178,17 @@ To build web-app, use `build-war` Maven profile.
 [5]: https://www.liquibase.org/
 [6]: http://rest-assured.io/
 [7]: https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)
+[8]: https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters/spring-boot-starter-web
+[9]: https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters/spring-boot-starter-data-jpa
+[10]: https://hibernate.org/
+[11]: https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters/spring-boot-starter-test
+[12]: https://github.com/springdoc/springdoc-openapi
+[13]: https://projectlombok.org/
+[14]: https://github.com/FasterXML/jackson-databind
+[15]: https://www.vavr.io/
+[16]: https://commons.apache.org/proper/commons-lang/
+[17]: http://commons.apache.org/proper/commons-collections/
+[18]: https://h2database.com/html/main.html
+[19]: https://www.postgresql.org/
+[20]: https://junit.org/junit5/
+[21]: https://assertj.github.io/doc/
