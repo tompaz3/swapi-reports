@@ -25,10 +25,6 @@ one has to execute multiple queries).
 Project Reactor use for such simple application is a bit of an overkill, since all data
 need to be accessed in a blocking manner, anyway.
 
-Advantages of this application is that it wasn't just another simple CRUD application with 
-Spring Web MVC and was the opportunity to try out some frameworks and design solutions
-the author doesn't use on a regular basis. 
-
 
 ## How to use
 
